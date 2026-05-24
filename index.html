@@ -636,6 +636,77 @@ input[type="text"] { font-size: 17px; font-weight: 400; }
 .recalc-link { text-align: center; margin-top: 28px; }
 .recalc-link button { background: none; border: 1.5px solid var(--border); border-radius: 8px; font-family: inherit; font-size: 17px; color: var(--text-body); padding: 11px 28px; cursor: pointer; transition: border-color 0.15s, color 0.15s; }
 .recalc-link button:hover { border-color: var(--blue); color: var(--blue); }
+
+/* ══════════════════════════════════════
+   HERO ROI BLOCK (top of results)
+══════════════════════════════════════ */
+.hero-results {
+  background: linear-gradient(160deg, var(--navy-deep) 0%, var(--navy-mid) 100%);
+  color: white;
+  border-radius: var(--radius);
+  padding: 44px 40px 40px;
+  box-shadow: var(--shadow-lg);
+  margin-bottom: 32px;
+}
+.hero-results .hero-eyebrow {
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.55);
+  text-align: center;
+  margin-bottom: 8px;
+}
+.hero-results .hero-title {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(26px, 3vw, 34px);
+  font-weight: 700;
+  color: white;
+  text-align: center;
+  margin-bottom: 28px;
+  line-height: 1.2;
+}
+.hero-results .headline-block { margin: 0; }
+
+/* ══════════════════════════════════════
+   BOTTOM CTA PANEL (second Book a Call)
+══════════════════════════════════════ */
+.bottom-cta-panel {
+  background: linear-gradient(160deg, var(--navy-deep) 0%, var(--navy-mid) 100%);
+  color: white;
+  border-radius: var(--radius);
+  padding: 36px 40px;
+  box-shadow: var(--shadow-lg);
+  margin-top: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 32px;
+  flex-wrap: wrap;
+}
+.bottom-cta-text { flex: 1; min-width: 240px; }
+.bottom-cta-eyebrow {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.45);
+  margin-bottom: 8px;
+}
+.bottom-cta-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 26px;
+  font-weight: 700;
+  color: white;
+  margin-bottom: 8px;
+  line-height: 1.2;
+}
+.bottom-cta-body {
+  font-size: 16px;
+  color: rgba(255,255,255,0.6);
+  line-height: 1.55;
+  font-weight: 300;
+}
 </style>
 </head>
 <body>
@@ -856,7 +927,7 @@ input[type="text"] { font-size: 17px; font-weight: 400; }
     </div>
     <div class="ip-step ip-active" id="ip-2">
       <div class="ip-num">2</div>
-      <div class="ip-text"><span class="ip-label">Step Two</span><span class="ip-title">Adjust &amp; Calculate</span></div>
+      <div class="ip-text"><span class="ip-label">Step Two</span><span class="ip-title">Review Your Results</span></div>
     </div>
     <div class="ip-step" id="ip-3">
       <div class="ip-num">3</div>
@@ -864,11 +935,61 @@ input[type="text"] { font-size: 17px; font-weight: 400; }
     </div>
   </div>
 
-  <!-- Step 2 header -->
-  <div class="section-header-block">
-    <div class="sh-step">Step 2 of 3</div>
-    <h2>Adjust &amp; See Your Return</h2>
-    <p class="sh-desc">Tweak any number on the left and the results update instantly on the right.</p>
+  <!-- HERO ROI BLOCK (top of results) -->
+  <div class="hero-results">
+    <div class="hero-eyebrow">Your Projected Return</div>
+    <div class="hero-title">Here's What Fractional Sales Management Could Be Worth</div>
+    <div class="headline-block">
+      <div class="hl-roi">
+        <div class="hl-eyebrow">Return on Investment</div>
+        <div class="hl-number" id="hl-roi">—</div>
+        <div class="hl-sub">For every $1 invested over 6 months</div>
+      </div>
+      <div class="hl-divider"></div>
+      <div class="hl-net">
+        <div class="hl-eyebrow">Net Increased Margin</div>
+        <div class="hl-number hl-number-net" id="hl-net-margin">—</div>
+        <div class="hl-sub">Value generated above the cost of investment</div>
+      </div>
+      <div class="hl-divider"></div>
+      <div class="payback-box">
+        <div class="pb-label">Payback Period</div>
+        <div class="pb-val" id="hl-payback">—</div>
+        <div class="pb-unit">months</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 6-Month ROI Summary (second section) -->
+  <div class="totals-panel">
+    <h3>6-Month ROI Summary</h3>
+    <table class="totals-table">
+      <tr><td><span class="row-label">① Close Rate Improvement</span></td><td id="tt-1">$0</td></tr>
+      <tr><td><span class="row-label">② Discount Recovery</span></td><td id="tt-2">$0</td></tr>
+      <tr><td><span class="row-label">③ New Opportunities Closed</span></td><td id="tt-3">$0</td></tr>
+      <tr><td><span class="row-label">④ President's Time Recaptured</span></td><td id="tt-4">$0</td></tr>
+      <tr id="tt-custom-row" style="display:none"><td><span class="row-label" id="tt-custom-label">Other Benefit</span></td><td id="tt-5">$0</td></tr>
+      <tr class="total-row"><td>Total 6-Month Value</td><td id="tt-total">$0</td></tr>
+      <tr class="sub-row"><td><span>Less: Total Investment (6 months)</span></td><td id="tt-invest">—</td></tr>
+      <tr class="net-row"><td><span>Net Increased Margin</span></td><td id="tt-net">—</td></tr>
+    </table>
+    <!-- Book a Call #1 — immediately after the summary -->
+    <div class="panel-cta">
+      <div class="panel-cta-left">
+        <div class="panel-cta-step">Step 3 of 3</div>
+        <div class="panel-cta-title">Like What You See? Let's Talk.</div>
+        <div class="panel-cta-body">If the numbers make sense, a 20-minute conversation is the right next step. No pressure — just a real look at what this could mean for your business.</div>
+      </div>
+      <a href="https://meetings.hubspot.com/mark-mcgraw/20-minute-zoom" target="_blank" class="panel-cta-btn">Book a 20-Minute Call &rarr;</a>
+    </div>
+    <p class="disclaimer">These projections are estimates based on the inputs you provided. Actual results will vary. This tool is designed to help you think through potential upside — not to guarantee specific outcomes.</p>
+  </div>
+
+  <!-- Adjust section header -->
+  <div class="section-header-block" style="margin-top: 48px;">
+    <div class="sh-step">Adjust Your Inputs</div>
+    <h2>Want to Refine the Numbers?</h2>
+    <p class="sh-desc">Tweak any number on the left and watch the totals above update in real time.</p>
   </div>
 
   <!-- Step 2 paired rows -->
@@ -1008,47 +1129,14 @@ input[type="text"] { font-size: 17px; font-weight: 400; }
 
   </div><!-- /step2-rows -->
 
-  <!-- Totals Panel -->
-  <div class="totals-panel">
-    <h3>6-Month ROI Summary</h3>
-    <table class="totals-table">
-      <tr><td><span class="row-label">① Close Rate Improvement</span></td><td id="tt-1">$0</td></tr>
-      <tr><td><span class="row-label">② Discount Recovery</span></td><td id="tt-2">$0</td></tr>
-      <tr><td><span class="row-label">③ New Opportunities Closed</span></td><td id="tt-3">$0</td></tr>
-      <tr><td><span class="row-label">④ President's Time Recaptured</span></td><td id="tt-4">$0</td></tr>
-      <tr id="tt-custom-row" style="display:none"><td><span class="row-label" id="tt-custom-label">Other Benefit</span></td><td id="tt-5">$0</td></tr>
-      <tr class="total-row"><td>Total 6-Month Value</td><td id="tt-total">$0</td></tr>
-      <tr class="sub-row"><td><span>Less: Total Investment (6 months)</span></td><td id="tt-invest">—</td></tr>
-      <tr class="net-row"><td><span>Net Increased Margin</span></td><td id="tt-net">—</td></tr>
-    </table>
-    <div class="headline-block">
-      <div class="hl-roi">
-        <div class="hl-eyebrow">Return on Investment</div>
-        <div class="hl-number" id="hl-roi">—</div>
-        <div class="hl-sub">For every $1 invested over 6 months</div>
-      </div>
-      <div class="hl-divider"></div>
-      <div class="hl-net">
-        <div class="hl-eyebrow">Net Increased Margin</div>
-        <div class="hl-number hl-number-net" id="hl-net-margin">—</div>
-        <div class="hl-sub">Value generated above the cost of investment</div>
-      </div>
-      <div class="hl-divider"></div>
-      <div class="payback-box">
-        <div class="pb-label">Payback Period</div>
-        <div class="pb-val" id="hl-payback">—</div>
-        <div class="pb-unit">months</div>
-      </div>
+  <!-- Book a Call #2 — at the very bottom -->
+  <div class="bottom-cta-panel">
+    <div class="bottom-cta-text">
+      <div class="bottom-cta-eyebrow">Ready to Talk?</div>
+      <div class="bottom-cta-title">Let's See What This Could Look Like for You.</div>
+      <div class="bottom-cta-body">A 20-minute call is the right next step — no pressure, just a real conversation about your business.</div>
     </div>
-    <div class="panel-cta">
-      <div class="panel-cta-left">
-        <div class="panel-cta-step">Step 3 of 3</div>
-        <div class="panel-cta-title">Like What You See? Let's Talk.</div>
-        <div class="panel-cta-body">If the numbers make sense, a 20-minute conversation is the right next step. No pressure — just a real look at what this could mean for your business.</div>
-      </div>
-      <a href="https://meetings.hubspot.com/mark-mcgraw/20-minute-zoom" target="_blank" class="panel-cta-btn">Book a 20-Minute Call &rarr;</a>
-    </div>
-    <p class="disclaimer">These projections are estimates based on the inputs you provided. Actual results will vary. This tool is designed to help you think through potential upside — not to guarantee specific outcomes.</p>
+    <a href="https://meetings.hubspot.com/mark-mcgraw/20-minute-zoom" target="_blank" class="panel-cta-btn">Book a 20-Minute Call &rarr;</a>
   </div>
 
   <div class="recalc-link">
