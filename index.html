@@ -1,0 +1,1450 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fractional Sales Manager ROI Calculator</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Source+Sans+3:wght@300;400;600;700&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --navy:        #0D2B45;
+  --navy-deep:   #091E31;
+  --navy-mid:    #1A3F5C;
+  --blue:        #1A6FA8;
+  --blue-light:  #2B8FCE;
+  --blue-pale:   #E8F3FB;
+  --blue-border: #8DC4E6;
+  --bg:          #F4F6F8;
+  --surface:     #FFFFFF;
+  --surface-alt: #EEF2F6;
+  --border:      #D0D8E0;
+  --text-dark:   #0D1B26;
+  --text-mid:    #2E4057;
+  --text-body:   #3D5166;
+  --gold:        #C49A2A;
+  --green:       #1E6B47;
+  --green-bg:    #E4F5EE;
+  --green-border:#7ECBA4;
+  --radius:      14px;
+  --shadow:      0 2px 14px rgba(13,43,69,0.08);
+  --shadow-lg:   0 8px 40px rgba(13,43,69,0.16);
+}
+
+body {
+  font-family: 'Source Sans 3', sans-serif;
+  background: var(--bg);
+  color: var(--text-dark);
+  font-size: 18px;
+  line-height: 1.65;
+  min-height: 100vh;
+}
+
+/* ══════════════════════════════════════
+   HEADER
+══════════════════════════════════════ */
+.page-header {
+  background: linear-gradient(160deg, var(--navy-deep) 0%, var(--navy-mid) 100%);
+  color: white;
+  padding: 64px 40px 56px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.page-header::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at 60% 0%, rgba(26,111,168,0.25) 0%, transparent 65%);
+  pointer-events: none;
+}
+.page-header .eyebrow {
+  font-size: 16px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.7);
+  margin-bottom: 20px;
+  font-weight: 700;
+}
+.page-header h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(32px, 5vw, 56px);
+  font-weight: 700;
+  line-height: 1.12;
+  margin-bottom: 22px;
+  position: relative;
+}
+.page-header .subtitle {
+  font-size: 22px;
+  color: rgba(255,255,255,0.72);
+  max-width: 640px;
+  margin: 0 auto;
+  font-weight: 300;
+  line-height: 1.5;
+  position: relative;
+}
+
+/* ══════════════════════════════════════
+   PROGRESS TRACKER
+══════════════════════════════════════ */
+.progress-tracker {
+  background: var(--navy);
+  padding: 0 40px;
+  display: flex;
+  align-items: stretch;
+  justify-content: center;
+  gap: 0;
+  border-bottom: 3px solid var(--blue);
+}
+.progress-step {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 22px 32px;
+  color: rgba(255,255,255,0.4);
+  font-size: 17px;
+  font-weight: 600;
+  position: relative;
+  cursor: default;
+  transition: color 0.2s;
+  flex: 1;
+  max-width: 260px;
+}
+.progress-step + .progress-step::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 28%;
+  height: 44%;
+  width: 1px;
+  background: rgba(255,255,255,0.12);
+}
+.progress-step.active {
+  color: white;
+}
+.progress-step.done {
+  color: rgba(255,255,255,0.55);
+}
+.progress-step .ps-num {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  font-weight: 700;
+  flex-shrink: 0;
+  border: 2px solid rgba(255,255,255,0.2);
+  background: transparent;
+  transition: background 0.2s, border-color 0.2s;
+}
+.progress-step.active .ps-num {
+  background: var(--blue);
+  border-color: var(--blue);
+  color: white;
+}
+.progress-step.done .ps-num {
+  background: rgba(255,255,255,0.15);
+  border-color: rgba(255,255,255,0.3);
+}
+.ps-text { line-height: 1.25; }
+.ps-text .ps-label { font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; opacity: 0.6; display: block; margin-bottom: 2px; }
+.ps-text .ps-title { font-size: 17px; font-weight: 700; display: block; }
+@media (max-width: 680px) {
+  .progress-tracker { padding: 0 12px; }
+  .progress-step { padding: 16px 14px; gap: 10px; }
+  .ps-text .ps-title { font-size: 14px; }
+  .ps-text .ps-label { display: none; }
+}
+
+/* ══════════════════════════════════════
+   MAIN
+══════════════════════════════════════ */
+.main {
+  max-width: 880px;
+  margin: 0 auto;
+  padding: 52px 24px 96px;
+}
+
+/* ══════════════════════════════════════
+   STEP SECTION HEADERS
+══════════════════════════════════════ */
+.section-header-block {
+  margin-bottom: 28px;
+  margin-top: 0;
+}
+.section-header-block .sh-step {
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--blue);
+  margin-bottom: 6px;
+}
+.section-header-block h2 {
+  font-family: 'Playfair Display', serif;
+  font-size: 34px;
+  font-weight: 700;
+  color: var(--text-dark);
+  line-height: 1.15;
+}
+.section-header-block .sh-desc {
+  font-size: 18px;
+  color: var(--text-body);
+  margin-top: 6px;
+  font-weight: 400;
+  max-width: 600px;
+}
+
+/* ══════════════════════════════════════
+   ASSUMPTION CARD
+══════════════════════════════════════ */
+.assumption-card {
+  background: var(--surface);
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow);
+  overflow: hidden;
+}
+.assumption-group {
+  padding: 34px 36px 30px;
+  border-bottom: 1px solid var(--border);
+}
+.assumption-group:last-child { border-bottom: none; }
+
+.group-heading {
+  font-size: 14px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.13em;
+  color: var(--blue);
+  margin-bottom: 22px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.group-heading::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--border);
+}
+
+/* ══════════════════════════════════════
+   FIELD GRIDS
+══════════════════════════════════════ */
+.field-grid {
+  display: grid;
+  gap: 22px 32px;
+  grid-template-columns: 1fr 1fr;
+}
+.field-grid.cols-3 { grid-template-columns: 1fr 1fr 1fr; }
+.field-grid.cols-4 { grid-template-columns: 1fr 1fr 1fr 1fr; }
+@media (max-width: 660px) {
+  .field-grid, .field-grid.cols-3, .field-grid.cols-4 { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 440px) {
+  .field-grid, .field-grid.cols-3, .field-grid.cols-4 { grid-template-columns: 1fr; }
+}
+
+/* ══════════════════════════════════════
+   FIELDS
+══════════════════════════════════════ */
+.field { display: flex; flex-direction: column; gap: 8px; }
+.field label {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--text-dark);
+  letter-spacing: 0.01em;
+  line-height: 1.3;
+}
+.field .hint {
+  font-size: 15px;
+  color: var(--text-body);
+  margin-top: -2px;
+  font-weight: 400;
+  line-height: 1.45;
+}
+
+.input-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+.input-wrap .prefix { position: absolute; left: 15px; font-size: 20px; font-weight: 600; color: var(--text-body); pointer-events: none; }
+.input-wrap .suffix { position: absolute; right: 15px; font-size: 20px; font-weight: 600; color: var(--text-body); pointer-events: none; }
+.input-wrap input { padding-left: 36px !important; }
+.input-wrap.suf input { padding-right: 36px !important; padding-left: 16px !important; }
+
+input[type="number"], input[type="text"] {
+  width: 100%;
+  border: 1.5px solid var(--border);
+  border-radius: 9px;
+  background: var(--bg);
+  font-family: inherit;
+  font-size: 23px;
+  font-weight: 600;
+  color: var(--text-dark);
+  padding: 13px 16px;
+  outline: none;
+  transition: border-color 0.18s, box-shadow 0.18s, background 0.18s;
+  -moz-appearance: textfield;
+}
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button { -webkit-appearance: none; }
+input[type="number"]:focus, input[type="text"]:focus {
+  border-color: var(--blue);
+  box-shadow: 0 0 0 3px rgba(26,111,168,0.14);
+  background: #fff;
+}
+input[type="text"] { font-size: 19px; font-weight: 400; }
+
+/* ══════════════════════════════════════
+   CURRENT vs IMPROVED COLUMN HEADERS
+══════════════════════════════════════ */
+.col-header-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0 32px;
+  margin-bottom: 16px;
+}
+.col-header {
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  padding: 9px 16px;
+  border-radius: 7px;
+  line-height: 1.3;
+}
+.col-header-current {
+  background: #EDF0F4;
+  color: #3D5166;
+  border: 1px solid #BFC9D4;
+}
+.col-header-improved {
+  background: var(--blue-pale);
+  color: var(--navy-mid);
+  border: 1px solid var(--blue-border);
+}
+.improved-field label { color: var(--blue); }
+.improved-field input {
+  border-color: var(--blue-border);
+  background: var(--blue-pale);
+}
+.improved-field input:focus {
+  border-color: var(--blue);
+  background: #fff;
+}
+
+/* ══════════════════════════════════════
+   INVESTMENT ROW
+══════════════════════════════════════ */
+.invest-row {
+  display: flex;
+  align-items: center;
+  gap: 28px;
+  flex-wrap: wrap;
+}
+.invest-row .field { flex: 0 0 240px; }
+.invest-row .invest-calc {
+  flex: 1;
+  background: var(--blue-pale);
+  border-radius: 10px;
+  border: 1px solid var(--blue-border);
+  padding: 16px 24px;
+  font-size: 18px;
+  color: var(--text-mid);
+  line-height: 1.6;
+}
+.invest-row .invest-calc strong {
+  font-size: 26px;
+  font-weight: 700;
+  color: var(--navy);
+}
+
+/* ══════════════════════════════════════
+   CALCULATE BUTTON
+══════════════════════════════════════ */
+.calc-btn-wrap { text-align: center; margin-top: 40px; }
+.calc-btn {
+  background: var(--blue);
+  color: white;
+  border: none;
+  border-radius: 10px;
+  font-family: inherit;
+  font-size: 22px;
+  font-weight: 700;
+  padding: 20px 60px;
+  cursor: pointer;
+  letter-spacing: 0.02em;
+  transition: background 0.18s, transform 0.12s, box-shadow 0.18s;
+  box-shadow: 0 4px 22px rgba(26,111,168,0.32);
+}
+.calc-btn:hover { background: var(--navy-mid); transform: translateY(-2px); box-shadow: 0 8px 30px rgba(13,43,69,0.3); }
+.calc-btn:active { transform: translateY(0); }
+
+/* ══════════════════════════════════════
+   INLINE PROGRESS TRACKER (results top)
+══════════════════════════════════════ */
+.inline-progress {
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+  background: var(--navy);
+  border-radius: var(--radius);
+  margin-top: 48px;
+  box-shadow: var(--shadow-lg);
+  overflow: hidden;
+  border-bottom: 3px solid var(--blue);
+}
+.ip-step {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 18px;
+  flex: 1;
+  padding: 26px 32px;
+  color: rgba(255,255,255,0.3);
+  transition: color 0.2s;
+  position: relative;
+}
+/* vertical divider between steps */
+.ip-step + .ip-step {
+  border-left: 1px solid rgba(255,255,255,0.12);
+}
+.ip-step.ip-active { color: white; }
+.ip-step.ip-done   { color: rgba(255,255,255,0.55); }
+.ip-step.ip-complete { color: rgba(255,255,255,0.55); }
+
+.ip-num {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  font-weight: 700;
+  flex-shrink: 0;
+  border: 2px solid rgba(255,255,255,0.18);
+  background: transparent;
+  color: inherit;
+  transition: background 0.2s, border-color 0.2s;
+  line-height: 1;
+}
+.ip-step.ip-active .ip-num {
+  background: var(--blue);
+  border-color: var(--blue);
+  color: white;
+}
+.ip-step.ip-done .ip-num,
+.ip-step.ip-complete .ip-num {
+  background: rgba(255,255,255,0.12);
+  border-color: rgba(255,255,255,0.28);
+  color: rgba(255,255,255,0.7);
+}
+
+.ip-text {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.25;
+  min-width: 0;
+}
+.ip-label {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.4);
+  margin-bottom: 3px;
+  white-space: nowrap;
+}
+.ip-step.ip-active .ip-label { color: rgba(255,255,255,0.6); }
+.ip-title {
+  font-size: 18px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+@media (max-width: 640px) {
+  .ip-step { padding: 20px 18px; gap: 12px; }
+  .ip-title { font-size: 15px; white-space: normal; }
+  .ip-label { display: none; }
+  .ip-num { width: 38px; height: 38px; font-size: 15px; }
+}
+
+/* ══════════════════════════════════════
+   DIVIDER
+══════════════════════════════════════ */
+.divider {
+  border: none;
+  border-top: 2px dashed var(--border);
+  margin: 56px 0 0;
+}
+
+/* ══════════════════════════════════════
+   RESULTS
+══════════════════════════════════════ */
+#results-section { display: none; }
+#results-section.visible { display: block; }
+
+/* Echo Bar */
+.echo-bar {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 20px 28px;
+  margin-bottom: 32px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 28px;
+  box-shadow: var(--shadow);
+}
+.echo-item { font-size: 16px; color: var(--text-body); }
+.echo-item strong { color: var(--text-dark); font-weight: 700; }
+
+/* ══════════════════════════════════════
+   STEP 2 TWO-COLUMN LAYOUT
+══════════════════════════════════════ */
+.step2-layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  align-items: start;
+  margin-bottom: 28px;
+}
+@media (max-width: 740px) {
+  .step2-layout { grid-template-columns: 1fr; }
+}
+.step2-inputs {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  position: sticky;
+  top: 20px;
+}
+.adj-section {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 20px 22px 18px;
+  box-shadow: var(--shadow);
+}
+.adj-section-invest {
+  background: var(--blue-pale);
+  border-color: var(--blue-border);
+}
+.adj-heading {
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--blue);
+  margin-bottom: 14px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.adj-heading::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+.step2-inputs input[type="number"],
+.step2-inputs input[type="text"] { font-size: 20px; padding: 10px 14px; }
+.step2-inputs .col-header { font-size: 12px; padding: 6px 12px; }
+.step2-inputs .col-header-row { margin-bottom: 12px; }
+.step2-inputs .field-grid { gap: 14px 20px; }
+.step2-inputs .field label { font-size: 14px; }
+.step2-inputs .hint { font-size: 14px; margin-top: 4px; }
+
+.step2-results {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+/* Benefit Cards */
+.benefit-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 22px;
+  margin-bottom: 30px;
+}
+@media (max-width: 600px) { .benefit-grid { grid-template-columns: 1fr; } }
+
+.benefit-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 26px 26px 24px;
+  box-shadow: var(--shadow);
+  border-left: 5px solid var(--blue);
+}
+.benefit-card .bc-num {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--blue);
+  margin-bottom: 6px;
+}
+.benefit-card .bc-title {
+  font-size: 19px;
+  font-weight: 700;
+  color: var(--text-dark);
+  margin-bottom: 10px;
+  line-height: 1.3;
+}
+.benefit-card .bc-logic {
+  font-size: 15px;
+  color: var(--text-body);
+  font-weight: 400;
+  margin-bottom: 16px;
+  line-height: 1.5;
+}
+.benefit-card .bc-value {
+  font-family: 'Playfair Display', serif;
+  font-size: 36px;
+  font-weight: 700;
+  color: var(--green);
+}
+.benefit-card .bc-period { font-size: 15px; color: var(--text-body); margin-top: 2px; }
+.benefit-card.custom-card { border-left-color: var(--gold); }
+.benefit-card.custom-card .bc-value { color: var(--gold); }
+
+/* ══════════════════════════════════════
+   TOTALS PANEL
+══════════════════════════════════════ */
+.totals-panel {
+  background: linear-gradient(160deg, var(--navy-deep) 0%, var(--navy-mid) 100%);
+  color: white;
+  border-radius: var(--radius);
+  padding: 44px 40px 40px;
+  box-shadow: var(--shadow-lg);
+}
+.totals-panel h3 {
+  font-family: 'Playfair Display', serif;
+  font-size: 30px;
+  font-weight: 700;
+  margin-bottom: 32px;
+  padding-bottom: 22px;
+  border-bottom: 1px solid rgba(255,255,255,0.16);
+}
+.totals-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 36px;
+}
+.totals-table td {
+  padding: 12px 2px;
+  font-size: 19px;
+  border-bottom: 1px solid rgba(255,255,255,0.09);
+  vertical-align: middle;
+}
+.totals-table td:last-child { text-align: right; font-weight: 700; color: #9ADEC6; }
+.totals-table .row-label { color: rgba(255,255,255,0.82); }
+.totals-table .sub-row td { font-size: 16px; color: rgba(255,255,255,0.5); }
+.totals-table .sub-row td:last-child { color: rgba(255,255,255,0.42); }
+.totals-table .total-row td {
+  border-top: 2px solid rgba(255,255,255,0.28);
+  border-bottom: none;
+  padding-top: 20px;
+  font-size: 22px;
+  font-weight: 700;
+  color: white;
+}
+.totals-table .total-row td:last-child { font-size: 26px; color: #9ADEC6; }
+
+.headline-block {
+  background: rgba(255,255,255,0.09);
+  border: 1px solid rgba(255,255,255,0.16);
+  border-radius: 14px;
+  padding: 34px 32px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+.hl-roi .hl-eyebrow {
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  color: rgba(255,255,255,0.5);
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+.hl-roi .hl-number {
+  font-family: 'Playfair Display', serif;
+  font-size: 68px;
+  font-weight: 700;
+  color: #9ADEC6;
+  line-height: 1;
+}
+.hl-roi .hl-sub { font-size: 16px; color: rgba(255,255,255,0.48); margin-top: 10px; }
+
+.payback-box {
+  text-align: center;
+  background: rgba(255,255,255,0.07);
+  border: 1px solid rgba(255,255,255,0.15);
+  border-radius: 12px;
+  padding: 24px 32px;
+  min-width: 180px;
+}
+.payback-box .pb-label { font-size: 13px; text-transform: uppercase; letter-spacing: 0.14em; color: rgba(255,255,255,0.48); font-weight: 700; margin-bottom: 10px; }
+.payback-box .pb-val { font-family: 'Playfair Display', serif; font-size: 48px; font-weight: 700; color: white; line-height: 1; }
+.payback-box .pb-unit { font-size: 16px; color: rgba(255,255,255,0.48); margin-top: 8px; }
+
+.disclaimer {
+  margin-top: 22px;
+  font-size: 14px;
+  color: rgba(255,255,255,0.3);
+  text-align: center;
+  line-height: 1.6;
+}
+
+/* CTA */
+.totals-table .net-row td {
+  border-top: 1px solid rgba(255,255,255,0.2);
+  border-bottom: none;
+  padding-top: 14px;
+  font-size: 20px;
+  font-weight: 700;
+  color: #9ADEC6;
+}
+.totals-table .net-row td:last-child {
+  font-size: 22px;
+  color: #9ADEC6;
+}
+
+.hl-divider {
+  width: 1px;
+  align-self: stretch;
+  background: rgba(255,255,255,0.15);
+  margin: 0 8px;
+  flex-shrink: 0;
+}
+.hl-net { flex: 1; }
+.hl-number-net { font-size: 48px !important; }
+
+.panel-cta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 32px;
+  flex-wrap: wrap;
+  margin-top: 28px;
+  padding-top: 28px;
+  border-top: 1px solid rgba(255,255,255,0.15);
+}
+.panel-cta-left { flex: 1; min-width: 240px; }
+.panel-cta-step {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.45);
+  margin-bottom: 8px;
+}
+.panel-cta-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 26px;
+  font-weight: 700;
+  color: white;
+  margin-bottom: 8px;
+  line-height: 1.2;
+}
+.panel-cta-body {
+  font-size: 16px;
+  color: rgba(255,255,255,0.6);
+  line-height: 1.55;
+  font-weight: 300;
+}
+.panel-cta-btn {
+  display: inline-block;
+  background: white;
+  color: var(--navy);
+  font-family: inherit;
+  font-size: 18px;
+  font-weight: 700;
+  padding: 16px 36px;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+  text-decoration: none;
+  white-space: nowrap;
+  flex-shrink: 0;
+  transition: background 0.18s, transform 0.12s, box-shadow 0.18s;
+  box-shadow: 0 4px 18px rgba(0,0,0,0.2);
+}
+.panel-cta-btn:hover {
+  background: #E8F3FB;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 24px rgba(0,0,0,0.28);
+}
+
+.recalc-link {
+  text-align: center;
+  margin-top: 28px;
+}
+.recalc-link button {
+  background: none;
+  border: 1.5px solid var(--border);
+  border-radius: 8px;
+  font-family: inherit;
+  font-size: 17px;
+  color: var(--text-body);
+  padding: 11px 28px;
+  cursor: pointer;
+  transition: border-color 0.15s, color 0.15s;
+}
+.recalc-link button:hover { border-color: var(--blue); color: var(--blue); }
+</style>
+</head>
+<body>
+
+<!-- ══ HEADER ══ -->
+<header class="page-header">
+  <div class="eyebrow">ROI Assessment Tool &mdash; Fractional Sales Management</div>
+  <h1>What Could a Fractional Sales Manager<br>Be Worth to Your Business?</h1>
+  <p class="subtitle">Answer a few questions about your business and we'll calculate the return on a six-month engagement.</p>
+</header>
+
+<!-- ══ PROGRESS TRACKER ══ -->
+<nav class="progress-tracker" id="progress-tracker">
+  <div class="progress-step active" id="ps-1">
+    <div class="ps-num">1</div>
+    <div class="ps-text">
+      <span class="ps-label">Step One</span>
+      <span class="ps-title">Tell Us About Your Business</span>
+    </div>
+  </div>
+  <div class="progress-step" id="ps-2">
+    <div class="ps-num">2</div>
+    <div class="ps-text">
+      <span class="ps-label">Step Two</span>
+      <span class="ps-title">Calculate the ROI</span>
+    </div>
+  </div>
+  <div class="progress-step" id="ps-3">
+    <div class="ps-num">3</div>
+    <div class="ps-text">
+      <span class="ps-label">Step Three</span>
+      <span class="ps-title">Book a Call</span>
+    </div>
+  </div>
+</nav>
+
+<main class="main">
+
+  <!-- ══ STEP 1 ══ -->
+  <div class="section-header-block">
+    <div class="sh-step">Step 1 of 3</div>
+    <h2>Tell Us About Your Business</h2>
+    <p class="sh-desc">Enter your current numbers below. We'll use these to model the impact of fractional sales management across four areas of return.</p>
+  </div>
+
+  <div class="assumption-card">
+
+    <!-- Sales Fundamentals -->
+    <div class="assumption-group">
+      <div class="group-heading">Your Sales Fundamentals</div>
+      <div class="field-grid cols-4">
+        <div class="field">
+          <label>Average Deal Size</label>
+          <div class="input-wrap">
+            <span class="prefix">$</span>
+            <input type="number" id="deal-size" value="25000" min="0" step="1000">
+          </div>
+        </div>
+        <div class="field">
+          <label>Gross Margin</label>
+          <div class="input-wrap suf">
+            <input type="number" id="gross-margin" value="35" min="0" max="100" step="1">
+            <span class="suffix">%</span>
+          </div>
+        </div>
+        <div class="field">
+          <label>Opportunities / Month</label>
+          <input type="number" id="opps-per-month" value="20" min="0" step="1" style="padding-left:16px">
+          <span class="hint">Total active opps in your pipeline</span>
+        </div>
+        <div class="field">
+          <label>Transactions / Month</label>
+          <input type="number" id="deals-per-month" value="5" min="0" step="1" style="padding-left:16px">
+          <span class="hint">Deals you actually close today</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Close Rate -->
+    <div class="assumption-group">
+      <div class="group-heading">Close Rate</div>
+      <div class="col-header-row">
+        <div class="col-header col-header-current">&#9664;&nbsp; Today, without a sales manager</div>
+        <div class="col-header col-header-improved">&#9654;&nbsp; With fractional sales management</div>
+      </div>
+      <div class="field-grid">
+        <div class="field">
+          <label>Current Close Rate</label>
+          <div class="input-wrap suf">
+            <input type="number" id="close-rate-current" value="25" min="0" max="100" step="1">
+            <span class="suffix">%</span>
+          </div>
+          <span class="hint">% of opportunities you close today</span>
+        </div>
+        <div class="field improved-field">
+          <label>Anticipated Close Rate with Coaching and Oversight</label>
+          <div class="input-wrap suf">
+            <input type="number" id="close-rate-improved" value="35" min="0" max="100" step="1">
+            <span class="suffix">%</span>
+          </div>
+          <span class="hint">% you expect to close with active sales management in place</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Discounting -->
+    <div class="assumption-group">
+      <div class="group-heading">Discounting Behavior</div>
+      <div class="col-header-row">
+        <div class="col-header col-header-current">&#9664;&nbsp; Today, without a sales manager</div>
+        <div class="col-header col-header-improved">&#9654;&nbsp; With fractional sales management</div>
+      </div>
+      <div class="field-grid">
+        <div class="field">
+          <label>Current Average Discount</label>
+          <div class="input-wrap suf">
+            <input type="number" id="discount-current" value="10" min="0" max="100" step="0.5">
+            <span class="suffix">%</span>
+          </div>
+          <span class="hint">Average % you discount off list price today</span>
+        </div>
+        <div class="field improved-field">
+          <label>Anticipated Average Discount with Sales Management</label>
+          <div class="input-wrap suf">
+            <input type="number" id="discount-improved" value="8" min="0" max="100" step="0.5">
+            <span class="suffix">%</span>
+          </div>
+          <span class="hint">Expected % after coaching on deal defense and pricing conversations</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- New Activity -->
+    <div class="assumption-group">
+      <div class="group-heading">New Pipeline from Increased Activity</div>
+      <div class="field-grid">
+        <div class="field">
+          <label>New Opportunities Generated / Month</label>
+          <input type="number" id="new-opps" value="3" min="0" step="1" style="padding-left:16px">
+          <span class="hint">Incremental opportunities a sales manager would drive that aren't being worked today</span>
+        </div>
+        <div class="field">
+          <label>Average Deal Size for New Opportunities</label>
+          <div class="input-wrap">
+            <span class="prefix">$</span>
+            <input type="number" id="new-deal-size" value="25000" min="0" step="1000">
+          </div>
+          <span class="hint">Leave as-is to use your standard deal size above</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- President Time -->
+    <div class="assumption-group">
+      <div class="group-heading">Your Time as President / Owner</div>
+      <div class="field-grid">
+        <div class="field">
+          <label>Hours / Week Currently Managing Salespeople</label>
+          <input type="number" id="mgmt-hours" value="8" min="0" step="1" style="padding-left:16px">
+          <span class="hint">Coaching, ride-alongs, call reviews, deal reviews, etc.</span>
+        </div>
+        <div class="field">
+          <label>Value of Your Time (per hour)</label>
+          <div class="input-wrap">
+            <span class="prefix">$</span>
+            <input type="number" id="hourly-rate" value="300" min="0" step="50">
+          </div>
+          <span class="hint">What an hour of your time is worth to the business</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Custom -->
+    <div class="assumption-group">
+      <div class="group-heading">Any Other Benefit You Anticipate (Optional)</div>
+      <div class="field-grid">
+        <div class="field">
+          <label>Name This Benefit</label>
+          <input type="text" id="custom-label" placeholder="e.g. Reduced rep turnover cost…">
+        </div>
+        <div class="field">
+          <label>Estimated 6-Month Value</label>
+          <div class="input-wrap">
+            <span class="prefix">$</span>
+            <input type="number" id="custom-value" value="" min="0" step="500" placeholder="0">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Investment -->
+    <div class="assumption-group">
+      <div class="group-heading">Monthly Investment</div>
+      <div class="invest-row">
+        <div class="field">
+          <label>Monthly Investment</label>
+          <div class="input-wrap">
+            <span class="prefix">$</span>
+            <input type="number" id="monthly-cost" value="8500" min="0" step="500">
+          </div>
+          <span class="hint">Default is $8,500 / month — adjust as needed</span>
+        </div>
+        <div class="invest-calc">
+          Six-month total investment: <strong id="total-invest-echo">$51,000</strong><br>
+          <span style="font-size:15px;color:var(--text-body)">This is the number we'll measure your ROI against.</span>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /assumption-card -->
+
+  <!-- Calculate Button -->
+  <div class="calc-btn-wrap">
+    <button class="calc-btn" onclick="showResults()">Calculate My ROI &rarr;</button>
+  </div>
+
+  <!-- ══ STEP 2 RESULTS ══ -->
+  <div id="results-section">
+    <hr class="divider">
+
+    <!-- Inline progress tracker — horizontal, matches top nav -->
+    <div class="inline-progress" id="inline-progress">
+      <div class="ip-step ip-done" id="ip-1">
+        <div class="ip-num">&#10003;</div>
+        <div class="ip-text">
+          <span class="ip-label">Step One</span>
+          <span class="ip-title">Tell Us About Your Business</span>
+        </div>
+      </div>
+      <div class="ip-step ip-active" id="ip-2">
+        <div class="ip-num">2</div>
+        <div class="ip-text">
+          <span class="ip-label">Step Two</span>
+          <span class="ip-title">Calculate the ROI</span>
+        </div>
+      </div>
+      <div class="ip-step" id="ip-3">
+        <div class="ip-num">3</div>
+        <div class="ip-text">
+          <span class="ip-label">Step Three</span>
+          <span class="ip-title">Book a Call</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-header-block" style="margin-top:36px">
+      <div class="sh-step">Step 2 of 3</div>
+      <h2>Adjust &amp; See Your Return</h2>
+      <p class="sh-desc">Tweak any assumption on the left and watch the numbers update instantly on the right. Make these numbers feel real to your business.</p>
+    </div>
+
+    <!-- Two-column: adjustable inputs LEFT, live results RIGHT -->
+    <div class="step2-layout">
+
+      <!-- ── LEFT: Adjustable Inputs ── -->
+      <div class="step2-inputs">
+
+        <div class="adj-section">
+          <div class="adj-heading">Close Rate</div>
+          <div class="col-header-row">
+            <div class="col-header col-header-current">&#9664;&nbsp; Today</div>
+            <div class="col-header col-header-improved">&#9654;&nbsp; With Sales Mgmt</div>
+          </div>
+          <div class="field-grid">
+            <div class="field">
+              <label>Current Close Rate</label>
+              <div class="input-wrap suf">
+                <input type="number" id="b-close-rate-current" value="25" min="0" max="100" step="1">
+                <span class="suffix">%</span>
+              </div>
+            </div>
+            <div class="field improved-field">
+              <label>Anticipated Close Rate</label>
+              <div class="input-wrap suf">
+                <input type="number" id="b-close-rate-improved" value="35" min="0" max="100" step="1">
+                <span class="suffix">%</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="adj-section">
+          <div class="adj-heading">Discounting</div>
+          <div class="col-header-row">
+            <div class="col-header col-header-current">&#9664;&nbsp; Today</div>
+            <div class="col-header col-header-improved">&#9654;&nbsp; With Sales Mgmt</div>
+          </div>
+          <div class="field-grid">
+            <div class="field">
+              <label>Current Avg. Discount</label>
+              <div class="input-wrap suf">
+                <input type="number" id="b-discount-current" value="10" min="0" max="100" step="0.5">
+                <span class="suffix">%</span>
+              </div>
+            </div>
+            <div class="field improved-field">
+              <label>Anticipated Discount</label>
+              <div class="input-wrap suf">
+                <input type="number" id="b-discount-improved" value="8" min="0" max="100" step="0.5">
+                <span class="suffix">%</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="adj-section">
+          <div class="adj-heading">New Pipeline Activity</div>
+          <div class="field-grid">
+            <div class="field">
+              <label>New Opps / Month</label>
+              <input type="number" id="b-new-opps" value="3" min="0" step="1" style="padding-left:16px">
+            </div>
+            <div class="field">
+              <label>Avg. Deal Size</label>
+              <div class="input-wrap">
+                <span class="prefix">$</span>
+                <input type="number" id="b-new-deal-size" value="25000" min="0" step="1000">
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="adj-section">
+          <div class="adj-heading">President's Time</div>
+          <div class="field-grid">
+            <div class="field">
+              <label>Hours / Week</label>
+              <input type="number" id="b-mgmt-hours" value="8" min="0" step="1" style="padding-left:16px">
+            </div>
+            <div class="field">
+              <label>Hourly Value</label>
+              <div class="input-wrap">
+                <span class="prefix">$</span>
+                <input type="number" id="b-hourly-rate" value="300" min="0" step="50">
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="adj-section">
+          <div class="adj-heading">Other Benefit <span style="font-weight:400;opacity:0.6">(optional)</span></div>
+          <div class="field-grid">
+            <div class="field">
+              <label>Label</label>
+              <input type="text" id="b-custom-label" placeholder="e.g. Lower turnover cost…">
+            </div>
+            <div class="field">
+              <label>6-Month Value</label>
+              <div class="input-wrap">
+                <span class="prefix">$</span>
+                <input type="number" id="b-custom-value" value="" min="0" step="500" placeholder="0">
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="adj-section adj-section-invest">
+          <div class="adj-heading">Monthly Investment</div>
+          <div class="field">
+            <div class="input-wrap">
+              <span class="prefix">$</span>
+              <input type="number" id="b-monthly-cost" value="8500" min="0" step="500">
+            </div>
+            <span class="hint">6-month total: <strong id="b-invest-echo">$51,000</strong></span>
+          </div>
+        </div>
+
+      </div><!-- /step2-inputs -->
+
+      <!-- ── RIGHT: Live Results ── -->
+      <div class="step2-results">
+
+        <div class="benefit-card">
+          <div class="bc-num">Benefit 1</div>
+          <div class="bc-title">Close Rate Improvement</div>
+          <div class="bc-logic" id="bc-logic-1">—</div>
+          <div class="bc-value" id="bc-val-1">$0</div>
+          <div class="bc-period">over 6 months</div>
+        </div>
+
+        <div class="benefit-card">
+          <div class="bc-num">Benefit 2</div>
+          <div class="bc-title">Discount Recovery</div>
+          <div class="bc-logic" id="bc-logic-2">—</div>
+          <div class="bc-value" id="bc-val-2">$0</div>
+          <div class="bc-period">over 6 months</div>
+        </div>
+
+        <div class="benefit-card">
+          <div class="bc-num">Benefit 3</div>
+          <div class="bc-title">New Opportunities Closed</div>
+          <div class="bc-logic" id="bc-logic-3">—</div>
+          <div class="bc-value" id="bc-val-3">$0</div>
+          <div class="bc-period">over 6 months</div>
+        </div>
+
+        <div class="benefit-card">
+          <div class="bc-num">Benefit 4</div>
+          <div class="bc-title">President's Time Recaptured</div>
+          <div class="bc-logic" id="bc-logic-4">—</div>
+          <div class="bc-value" id="bc-val-4">$0</div>
+          <div class="bc-period">over 6 months</div>
+        </div>
+
+        <div class="benefit-card custom-card" id="custom-card" style="display:none;">
+          <div class="bc-num">Additional Benefit</div>
+          <div class="bc-title" id="bc-custom-title">Other Benefit</div>
+          <div class="bc-value" id="bc-val-custom">$0</div>
+          <div class="bc-period">over 6 months</div>
+        </div>
+
+      </div><!-- /step2-results -->
+    </div><!-- /step2-layout -->
+
+    <!-- Totals Panel -->
+    <div class="totals-panel">
+      <h3>6-Month ROI Summary</h3>
+      <table class="totals-table">
+        <tr><td><span class="row-label">① Close Rate Improvement</span></td><td id="tt-1">$0</td></tr>
+        <tr><td><span class="row-label">② Discount Recovery</span></td><td id="tt-2">$0</td></tr>
+        <tr><td><span class="row-label">③ New Opportunities Closed</span></td><td id="tt-3">$0</td></tr>
+        <tr><td><span class="row-label">④ President's Time Recaptured</span></td><td id="tt-4">$0</td></tr>
+        <tr id="tt-custom-row" style="display:none"><td><span class="row-label" id="tt-custom-label">Other Benefit</span></td><td id="tt-5">$0</td></tr>
+        <tr class="total-row"><td>Total 6-Month Value</td><td id="tt-total">$0</td></tr>
+        <tr class="sub-row"><td><span>Less: Total Investment (6 months)</span></td><td id="tt-invest">−$51,000</td></tr>
+        <tr class="net-row"><td><span>Net Increased Margin</span></td><td id="tt-net">$0</td></tr>
+      </table>
+      <div class="headline-block">
+        <div class="hl-roi">
+          <div class="hl-eyebrow">Return on Investment</div>
+          <div class="hl-number" id="hl-roi">—</div>
+          <div class="hl-sub">For every $1 invested over 6 months</div>
+        </div>
+        <div class="hl-divider"></div>
+        <div class="hl-net">
+          <div class="hl-eyebrow">Net Increased Margin</div>
+          <div class="hl-number hl-number-net" id="hl-net-margin">—</div>
+          <div class="hl-sub">Value generated above the cost of investment</div>
+        </div>
+        <div class="hl-divider"></div>
+        <div class="payback-box">
+          <div class="pb-label">Payback Period</div>
+          <div class="pb-val" id="hl-payback">—</div>
+          <div class="pb-unit">months</div>
+        </div>
+      </div>
+      <p class="disclaimer">These projections are estimates based on the inputs you provided. Actual results will vary. This tool is designed to help you think through potential upside — not to guarantee specific outcomes.</p>
+
+      <div class="panel-cta">
+        <div class="panel-cta-left">
+          <div class="panel-cta-step">Step 3 of 3</div>
+          <div class="panel-cta-title">Like What You See? Let's Talk.</div>
+          <div class="panel-cta-body">If the numbers make sense, a 30-minute conversation is the right next step. No pressure — just a real look at what this could mean for your business.</div>
+        </div>
+        <a href="https://meetings.hubspot.com/mark-mcgraw/20-minute-zoom" target="_blank" class="panel-cta-btn">Book a 20-Minute Call &rarr;</a>
+      </div>
+    </div>
+
+    <div class="recalc-link">
+      <button onclick="scrollToTop()">← Adjust My Numbers</button>
+    </div>
+  </div><!-- /results-section -->
+
+</main>
+
+<script>
+const fmt  = n => '$' + Math.round(n).toLocaleString();
+const fmtD = n => n.toFixed(1);
+
+function val(id) {
+  const el = document.getElementById(id);
+  if (!el) return 0;
+  const v = parseFloat(el.value);
+  return isNaN(v) ? 0 : v;
+}
+function str(id) {
+  const el = document.getElementById(id);
+  return el ? el.value.trim() : '';
+}
+
+// Live investment echo (step 1)
+document.getElementById('monthly-cost').addEventListener('input', function() {
+  document.getElementById('total-invest-echo').textContent = fmt((parseFloat(this.value) || 0) * 6);
+});
+
+// Live investment echo (step 2)
+document.getElementById('b-monthly-cost').addEventListener('input', function() {
+  document.getElementById('b-invest-echo').textContent = fmt((parseFloat(this.value) || 0) * 6);
+});
+
+function setStep(n) {
+  [1,2,3].forEach(i => {
+    const el = document.getElementById('ps-' + i);
+    el.classList.remove('active','done');
+    if (i < n) el.classList.add('done');
+    if (i === n) el.classList.add('active');
+  });
+  [1,2,3].forEach(i => {
+    const el = document.getElementById('ip-' + i);
+    if (!el) return;
+    el.classList.remove('ip-active','ip-done','ip-complete');
+    if (i < n) el.classList.add(i === 1 && n === 3 ? 'ip-complete' : 'ip-done');
+    if (i === n) el.classList.add('ip-active');
+  });
+}
+
+// Copy Step 1 values into Step 2 adjustable inputs when results first shown
+function syncStep2Inputs() {
+  const map = {
+    'b-close-rate-current':  'close-rate-current',
+    'b-close-rate-improved': 'close-rate-improved',
+    'b-discount-current':    'discount-current',
+    'b-discount-improved':   'discount-improved',
+    'b-new-opps':            'new-opps',
+    'b-new-deal-size':       'new-deal-size',
+    'b-mgmt-hours':          'mgmt-hours',
+    'b-hourly-rate':         'hourly-rate',
+    'b-custom-label':        'custom-label',
+    'b-custom-value':        'custom-value',
+    'b-monthly-cost':        'monthly-cost',
+  };
+  Object.entries(map).forEach(([bId, s1Id]) => {
+    const src = document.getElementById(s1Id);
+    const dst = document.getElementById(bId);
+    if (src && dst) dst.value = src.value;
+  });
+  document.getElementById('b-invest-echo').textContent =
+    fmt((parseFloat(document.getElementById('b-monthly-cost').value) || 0) * 6);
+}
+
+function showResults() {
+  syncStep2Inputs();
+  calculate();
+  const rs = document.getElementById('results-section');
+  rs.classList.add('visible');
+  setStep(2);
+  setTimeout(() => rs.scrollIntoView({ behavior: 'smooth', block: 'start' }), 60);
+}
+
+function scrollToTop() {
+  document.querySelector('.assumption-card').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  setStep(1);
+}
+
+// Any input change recalculates if results are visible
+document.querySelectorAll('input').forEach(el => el.addEventListener('input', () => {
+  if (document.getElementById('results-section').classList.contains('visible')) calculate();
+}));
+
+function calculate() {
+  // Step 2 inputs take precedence once visible; fall back to step 1 if b- inputs don't exist
+  const monthlyCost  = val('b-monthly-cost') || val('monthly-cost');
+  const totalInvest  = monthlyCost * 6;
+
+  // Base assumptions still come from step 1
+  const dealSize     = val('deal-size');
+  const gm           = val('gross-margin') / 100;
+  const oppsPerMonth = val('opps-per-month');
+
+  // These can be overridden in step 2
+  const closeRateCur = val('b-close-rate-current') / 100;
+  const closeRateImp = val('b-close-rate-improved') / 100;
+  const discountCur  = val('b-discount-current') / 100;
+  const discountImp  = val('b-discount-improved') / 100;
+  const newOpps      = val('b-new-opps');
+  const newDealSize  = val('b-new-deal-size') || dealSize;
+  const mgmtHours    = val('b-mgmt-hours');
+  const hourlyRate   = val('b-hourly-rate');
+  const customAmt    = val('b-custom-value');
+  const customLabel  = str('b-custom-label');
+
+  const gmPerDeal           = dealSize * gm;
+  const additionalDeals6mo  = oppsPerMonth * (closeRateImp - closeRateCur) * 6;
+  const closeVal            = Math.max(0, additionalDeals6mo * gmPerDeal);
+
+  const dealsClosedImp6mo    = oppsPerMonth * closeRateImp * 6;
+  const discountSavedPerDeal = dealSize * Math.max(0, discountCur - discountImp);
+  const discountVal          = discountSavedPerDeal * dealsClosedImp6mo;
+
+  const newGMPerDeal = newDealSize * gm;
+  const activityVal  = newOpps * closeRateImp * newGMPerDeal * 6;
+
+  const presidentVal = mgmtHours * hourlyRate * 26;
+
+  const totalVal   = closeVal + discountVal + activityVal + presidentVal + customAmt;
+  const netMargin  = totalVal - totalInvest;
+  const roiX       = totalInvest > 0 ? (totalVal / totalInvest) : 0;
+  const paybackMos = totalVal > 0 ? (totalInvest / (totalVal / 6)) : 0;
+
+  // Logic strings on benefit cards
+  const addDealsMo = oppsPerMonth * (closeRateImp - closeRateCur);
+  document.getElementById('bc-logic-1').textContent = addDealsMo > 0
+    ? `${fmtD(addDealsMo)} additional deals/month × ${fmt(gmPerDeal)} gross margin × 6 months`
+    : 'No close rate improvement entered';
+
+  const dClosedMo = oppsPerMonth * closeRateImp;
+  document.getElementById('bc-logic-2').textContent = discountSavedPerDeal > 0
+    ? `${fmtD(dClosedMo)} deals/month × ${fmt(discountSavedPerDeal)} saved per deal × 6 months`
+    : 'No discount improvement entered';
+
+  document.getElementById('bc-logic-3').textContent = newOpps > 0
+    ? `${newOpps} new opps/month × ${(closeRateImp*100).toFixed(0)}% close rate × ${fmt(newGMPerDeal)} GM × 6 months`
+    : 'No new opportunities entered';
+
+  document.getElementById('bc-logic-4').textContent = mgmtHours > 0
+    ? `${mgmtHours} hrs/week × ${fmt(hourlyRate)}/hr × 26 weeks`
+    : 'No hours or rate entered';
+
+  document.getElementById('bc-val-1').textContent = fmt(closeVal);
+  document.getElementById('bc-val-2').textContent = fmt(discountVal);
+  document.getElementById('bc-val-3').textContent = fmt(activityVal);
+  document.getElementById('bc-val-4').textContent = fmt(presidentVal);
+
+  const customCard = document.getElementById('custom-card');
+  if (customAmt > 0 || customLabel) {
+    customCard.style.display = '';
+    document.getElementById('bc-custom-title').textContent = customLabel || 'Other Benefit';
+    document.getElementById('bc-val-custom').textContent = fmt(customAmt);
+  } else {
+    customCard.style.display = 'none';
+  }
+
+  document.getElementById('tt-1').textContent = fmt(closeVal);
+  document.getElementById('tt-2').textContent = fmt(discountVal);
+  document.getElementById('tt-3').textContent = fmt(activityVal);
+  document.getElementById('tt-4').textContent = fmt(presidentVal);
+  document.getElementById('tt-total').textContent = fmt(totalVal);
+  document.getElementById('tt-invest').textContent = '−' + fmt(totalInvest);
+  document.getElementById('tt-net').textContent = netMargin >= 0 ? fmt(netMargin) : '−' + fmt(Math.abs(netMargin));
+  document.getElementById('total-invest-echo').textContent = fmt(val('monthly-cost') * 6);
+
+  const customRow = document.getElementById('tt-custom-row');
+  if (customAmt > 0 || customLabel) {
+    customRow.style.display = '';
+    document.getElementById('tt-custom-label').textContent = customLabel || 'Other Benefit';
+    document.getElementById('tt-5').textContent = fmt(customAmt);
+  } else {
+    customRow.style.display = 'none';
+  }
+
+  document.getElementById('hl-roi').textContent = roiX > 0 ? roiX.toFixed(1) + 'x' : '—';
+  document.getElementById('hl-net-margin').textContent = netMargin > 0 ? fmt(netMargin) : '—';
+  document.getElementById('hl-payback').textContent = paybackMos > 0 ? paybackMos.toFixed(1) : '—';
+
+  if (totalVal > 0) setStep(3);
+}
+</script>
+</body>
+</html>
