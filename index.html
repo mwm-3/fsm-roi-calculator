@@ -508,23 +508,18 @@ input[type="text"] { font-size: 19px; font-weight: 400; }
 
 /* ══════════════════════════════════════
    STEP 2 TWO-COLUMN LAYOUT
+   — flat grid: each input panel + benefit card share one row,
+     so their heights auto-match via grid row stretch
 ══════════════════════════════════════ */
 .step2-layout {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 24px;
-  align-items: start;
+  gap: 14px 24px;
+  align-items: stretch;
   margin-bottom: 28px;
 }
 @media (max-width: 740px) {
   .step2-layout { grid-template-columns: 1fr; }
-}
-.step2-inputs {
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
-  position: sticky;
-  top: 20px;
 }
 .adj-section {
   background: var(--surface);
@@ -532,10 +527,13 @@ input[type="text"] { font-size: 19px; font-weight: 400; }
   border-radius: var(--radius);
   padding: 20px 22px 18px;
   box-shadow: var(--shadow);
+  display: flex;
+  flex-direction: column;
 }
 .adj-section-invest {
   background: var(--blue-pale);
   border-color: var(--blue-border);
+  grid-column: 1 / -1;
 }
 .adj-heading {
   font-size: 13px;
@@ -549,19 +547,13 @@ input[type="text"] { font-size: 19px; font-weight: 400; }
   gap: 10px;
 }
 .adj-heading::after { content: ''; flex: 1; height: 1px; background: var(--border); }
-.step2-inputs input[type="number"],
-.step2-inputs input[type="text"] { font-size: 20px; padding: 10px 14px; }
-.step2-inputs .col-header { font-size: 12px; padding: 6px 12px; }
-.step2-inputs .col-header-row { margin-bottom: 12px; }
-.step2-inputs .field-grid { gap: 14px 20px; }
-.step2-inputs .field label { font-size: 14px; }
-.step2-inputs .hint { font-size: 14px; margin-top: 4px; }
-
-.step2-results {
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
-}
+.step2-layout .adj-section input[type="number"],
+.step2-layout .adj-section input[type="text"] { font-size: 20px; padding: 10px 14px; }
+.step2-layout .adj-section .col-header { font-size: 12px; padding: 6px 12px; }
+.step2-layout .adj-section .col-header-row { margin-bottom: 12px; }
+.step2-layout .adj-section .field-grid { gap: 14px 20px; }
+.step2-layout .adj-section .field label { font-size: 14px; }
+.step2-layout .adj-section .hint { font-size: 14px; margin-top: 4px; }
 
 /* Benefit Cards */
 .benefit-grid {
@@ -579,7 +571,10 @@ input[type="text"] { font-size: 19px; font-weight: 400; }
   padding: 26px 26px 24px;
   box-shadow: var(--shadow);
   border-left: 5px solid var(--blue);
+  display: flex;
+  flex-direction: column;
 }
+.benefit-card .bc-value { margin-top: auto; }
 .benefit-card .bc-num {
   font-size: 12px;
   font-weight: 700;
@@ -1050,167 +1045,159 @@ input[type="text"] { font-size: 19px; font-weight: 400; }
       <p class="sh-desc">Tweak any assumption on the left and watch the numbers update instantly on the right. Make these numbers feel real to your business.</p>
     </div>
 
-    <!-- Two-column: adjustable inputs LEFT, live results RIGHT -->
+    <!-- Two-column: each input panel pairs with its benefit card in the same grid row -->
     <div class="step2-layout">
 
-      <!-- ── LEFT: Adjustable Inputs ── -->
-      <div class="step2-inputs">
-
-        <div class="adj-section">
-          <div class="adj-heading">Close Rate</div>
-          <div class="col-header-row">
-            <div class="col-header col-header-current">&#9664;&nbsp; Today</div>
-            <div class="col-header col-header-improved">&#9654;&nbsp; With Sales Mgmt</div>
-          </div>
-          <div class="field-grid">
-            <div class="field">
-              <label>Current Close Rate</label>
-              <div class="input-wrap suf">
-                <input type="number" id="b-close-rate-current" value="25" min="0" max="100" step="1">
-                <span class="suffix">%</span>
-              </div>
-            </div>
-            <div class="field improved-field">
-              <label>Anticipated Close Rate</label>
-              <div class="input-wrap suf">
-                <input type="number" id="b-close-rate-improved" value="35" min="0" max="100" step="1">
-                <span class="suffix">%</span>
-              </div>
-            </div>
-          </div>
+      <!-- ── Row 1: Close Rate ↔ Benefit 1 ── -->
+      <div class="adj-section">
+        <div class="adj-heading">Close Rate</div>
+        <div class="col-header-row">
+          <div class="col-header col-header-current">&#9664;&nbsp; Today</div>
+          <div class="col-header col-header-improved">&#9654;&nbsp; With Sales Mgmt</div>
         </div>
-
-        <div class="adj-section">
-          <div class="adj-heading">Discounting</div>
-          <div class="col-header-row">
-            <div class="col-header col-header-current">&#9664;&nbsp; Today</div>
-            <div class="col-header col-header-improved">&#9654;&nbsp; With Sales Mgmt</div>
-          </div>
-          <div class="field-grid">
-            <div class="field">
-              <label>Current Avg. Discount</label>
-              <div class="input-wrap suf">
-                <input type="number" id="b-discount-current" value="10" min="0" max="100" step="0.5">
-                <span class="suffix">%</span>
-              </div>
-            </div>
-            <div class="field improved-field">
-              <label>Anticipated Discount</label>
-              <div class="input-wrap suf">
-                <input type="number" id="b-discount-improved" value="8" min="0" max="100" step="0.5">
-                <span class="suffix">%</span>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="adj-section">
-          <div class="adj-heading">New Pipeline Activity</div>
-          <div class="field-grid">
-            <div class="field">
-              <label>New Opps / Month</label>
-              <input type="number" id="b-new-opps" value="3" min="0" step="1" style="padding-left:16px">
-            </div>
-            <div class="field">
-              <label>Avg. Deal Size</label>
-              <div class="input-wrap">
-                <span class="prefix">$</span>
-                <input type="number" id="b-new-deal-size" value="25000" min="0" step="1000">
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="adj-section">
-          <div class="adj-heading">President's Time</div>
-          <div class="field-grid">
-            <div class="field">
-              <label>Hours / Week</label>
-              <input type="number" id="b-mgmt-hours" value="8" min="0" step="1" style="padding-left:16px">
-            </div>
-            <div class="field">
-              <label>Hourly Value</label>
-              <div class="input-wrap">
-                <span class="prefix">$</span>
-                <input type="number" id="b-hourly-rate" value="300" min="0" step="50">
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="adj-section">
-          <div class="adj-heading">Other Benefit <span style="font-weight:400;opacity:0.6">(optional)</span></div>
-          <div class="field-grid">
-            <div class="field">
-              <label>Label</label>
-              <input type="text" id="b-custom-label" placeholder="e.g. Lower turnover cost…">
-            </div>
-            <div class="field">
-              <label>6-Month Value</label>
-              <div class="input-wrap">
-                <span class="prefix">$</span>
-                <input type="number" id="b-custom-value" value="" min="0" step="500" placeholder="0">
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="adj-section adj-section-invest">
-          <div class="adj-heading">Monthly Investment</div>
+        <div class="field-grid">
           <div class="field">
+            <label>Current Close Rate</label>
+            <div class="input-wrap suf">
+              <input type="number" id="b-close-rate-current" value="25" min="0" max="100" step="1">
+              <span class="suffix">%</span>
+            </div>
+          </div>
+          <div class="field improved-field">
+            <label>Anticipated Close Rate</label>
+            <div class="input-wrap suf">
+              <input type="number" id="b-close-rate-improved" value="35" min="0" max="100" step="1">
+              <span class="suffix">%</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="benefit-card">
+        <div class="bc-num">Benefit 1</div>
+        <div class="bc-title">Close Rate Improvement</div>
+        <div class="bc-logic" id="bc-logic-1">—</div>
+        <div class="bc-value" id="bc-val-1">$0</div>
+        <div class="bc-period">over 6 months</div>
+      </div>
+
+      <!-- ── Row 2: Discounting ↔ Benefit 2 ── -->
+      <div class="adj-section">
+        <div class="adj-heading">Discounting</div>
+        <div class="col-header-row">
+          <div class="col-header col-header-current">&#9664;&nbsp; Today</div>
+          <div class="col-header col-header-improved">&#9654;&nbsp; With Sales Mgmt</div>
+        </div>
+        <div class="field-grid">
+          <div class="field">
+            <label>Current Avg. Discount</label>
+            <div class="input-wrap suf">
+              <input type="number" id="b-discount-current" value="10" min="0" max="100" step="0.5">
+              <span class="suffix">%</span>
+            </div>
+          </div>
+          <div class="field improved-field">
+            <label>Anticipated Discount</label>
+            <div class="input-wrap suf">
+              <input type="number" id="b-discount-improved" value="8" min="0" max="100" step="0.5">
+              <span class="suffix">%</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="benefit-card">
+        <div class="bc-num">Benefit 2</div>
+        <div class="bc-title">Discount Recovery</div>
+        <div class="bc-logic" id="bc-logic-2">—</div>
+        <div class="bc-value" id="bc-val-2">$0</div>
+        <div class="bc-period">over 6 months</div>
+      </div>
+
+      <!-- ── Row 3: New Pipeline ↔ Benefit 3 ── -->
+      <div class="adj-section">
+        <div class="adj-heading">New Pipeline Activity</div>
+        <div class="field-grid">
+          <div class="field">
+            <label>New Opps / Month</label>
+            <input type="number" id="b-new-opps" value="3" min="0" step="1" style="padding-left:16px">
+          </div>
+          <div class="field">
+            <label>Avg. Deal Size</label>
             <div class="input-wrap">
               <span class="prefix">$</span>
-              <input type="number" id="b-monthly-cost" value="8500" min="0" step="500">
+              <input type="number" id="b-new-deal-size" value="25000" min="0" step="1000">
             </div>
-            <span class="hint">6-month total: <strong id="b-invest-echo">$51,000</strong></span>
           </div>
         </div>
+      </div>
+      <div class="benefit-card">
+        <div class="bc-num">Benefit 3</div>
+        <div class="bc-title">New Opportunities Closed</div>
+        <div class="bc-logic" id="bc-logic-3">—</div>
+        <div class="bc-value" id="bc-val-3">$0</div>
+        <div class="bc-period">over 6 months</div>
+      </div>
 
-      </div><!-- /step2-inputs -->
-
-      <!-- ── RIGHT: Live Results ── -->
-      <div class="step2-results">
-
-        <div class="benefit-card">
-          <div class="bc-num">Benefit 1</div>
-          <div class="bc-title">Close Rate Improvement</div>
-          <div class="bc-logic" id="bc-logic-1">—</div>
-          <div class="bc-value" id="bc-val-1">$0</div>
-          <div class="bc-period">over 6 months</div>
+      <!-- ── Row 4: President's Time ↔ Benefit 4 ── -->
+      <div class="adj-section">
+        <div class="adj-heading">President's Time</div>
+        <div class="field-grid">
+          <div class="field">
+            <label>Hours / Week</label>
+            <input type="number" id="b-mgmt-hours" value="8" min="0" step="1" style="padding-left:16px">
+          </div>
+          <div class="field">
+            <label>Hourly Value</label>
+            <div class="input-wrap">
+              <span class="prefix">$</span>
+              <input type="number" id="b-hourly-rate" value="300" min="0" step="50">
+            </div>
+          </div>
         </div>
+      </div>
+      <div class="benefit-card">
+        <div class="bc-num">Benefit 4</div>
+        <div class="bc-title">President's Time Recaptured</div>
+        <div class="bc-logic" id="bc-logic-4">—</div>
+        <div class="bc-value" id="bc-val-4">$0</div>
+        <div class="bc-period">over 6 months</div>
+      </div>
 
-        <div class="benefit-card">
-          <div class="bc-num">Benefit 2</div>
-          <div class="bc-title">Discount Recovery</div>
-          <div class="bc-logic" id="bc-logic-2">—</div>
-          <div class="bc-value" id="bc-val-2">$0</div>
-          <div class="bc-period">over 6 months</div>
+      <!-- ── Row 5: Other Benefit ↔ Custom Card ── -->
+      <div class="adj-section">
+        <div class="adj-heading">Other Benefit <span style="font-weight:400;opacity:0.6">(optional)</span></div>
+        <div class="field-grid">
+          <div class="field">
+            <label>Label</label>
+            <input type="text" id="b-custom-label" placeholder="e.g. Lower turnover cost…">
+          </div>
+          <div class="field">
+            <label>6-Month Value</label>
+            <div class="input-wrap">
+              <span class="prefix">$</span>
+              <input type="number" id="b-custom-value" value="" min="0" step="500" placeholder="0">
+            </div>
+          </div>
         </div>
+      </div>
+      <div class="benefit-card custom-card" id="custom-card" style="display:none;">
+        <div class="bc-num">Additional Benefit</div>
+        <div class="bc-title" id="bc-custom-title">Other Benefit</div>
+        <div class="bc-value" id="bc-val-custom">$0</div>
+        <div class="bc-period">over 6 months</div>
+      </div>
 
-        <div class="benefit-card">
-          <div class="bc-num">Benefit 3</div>
-          <div class="bc-title">New Opportunities Closed</div>
-          <div class="bc-logic" id="bc-logic-3">—</div>
-          <div class="bc-value" id="bc-val-3">$0</div>
-          <div class="bc-period">over 6 months</div>
+      <!-- ── Row 6: Monthly Investment (spans full width) ── -->
+      <div class="adj-section adj-section-invest">
+        <div class="adj-heading">Monthly Investment</div>
+        <div class="field">
+          <div class="input-wrap">
+            <span class="prefix">$</span>
+            <input type="number" id="b-monthly-cost" value="8500" min="0" step="500">
+          </div>
+          <span class="hint">6-month total: <strong id="b-invest-echo">$51,000</strong></span>
         </div>
+      </div>
 
-        <div class="benefit-card">
-          <div class="bc-num">Benefit 4</div>
-          <div class="bc-title">President's Time Recaptured</div>
-          <div class="bc-logic" id="bc-logic-4">—</div>
-          <div class="bc-value" id="bc-val-4">$0</div>
-          <div class="bc-period">over 6 months</div>
-        </div>
-
-        <div class="benefit-card custom-card" id="custom-card" style="display:none;">
-          <div class="bc-num">Additional Benefit</div>
-          <div class="bc-title" id="bc-custom-title">Other Benefit</div>
-          <div class="bc-value" id="bc-val-custom">$0</div>
-          <div class="bc-period">over 6 months</div>
-        </div>
-
-      </div><!-- /step2-results -->
     </div><!-- /step2-layout -->
 
     <!-- Totals Panel -->
