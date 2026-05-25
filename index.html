@@ -623,6 +623,8 @@ input[type="text"] { font-size: 17px; font-weight: 400; }
 .recalc-link { text-align: center; margin-top: 28px; }
 .recalc-link button { background: none; border: 1.5px solid var(--border); border-radius: 8px; font-family: inherit; font-size: 17px; color: var(--text-body); padding: 11px 28px; cursor: pointer; transition: border-color 0.15s, color 0.15s; }
 .recalc-link button:hover { border-color: var(--blue); color: var(--blue); }
+
+.version-tag { position: fixed; bottom: 10px; left: 14px; font-size: 11px; color: rgba(128,128,128,0.6); font-family: inherit; letter-spacing: 0.04em; pointer-events: none; z-index: 9999; }
 </style>
 </head>
 <body>
@@ -1280,5 +1282,7 @@ document.querySelectorAll('#results-section input').forEach(el => {
   });
 });
 </script>
+<div class="version-tag">v1.0.0</div>
+
 </body>
 </html>
