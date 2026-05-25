@@ -71,36 +71,28 @@ body {
 }
 .tf-progress-wrap {
   flex: 1;
-  max-width: 480px;
+  max-width: 320px;
   margin: 0 32px;
 }
 .tf-progress-label {
-  font-size: 13px;
-  font-weight: 700;
-  color: rgba(255,255,255,0.85);
-  margin-bottom: 8px;
+  font-size: 12px;
+  color: rgba(255,255,255,0.4);
+  margin-bottom: 6px;
   text-align: center;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
+  letter-spacing: 0.08em;
 }
 .tf-progress-bar {
-  height: 8px;
-  background: rgba(255,255,255,0.15);
-  border-radius: 999px;
+  height: 3px;
+  background: rgba(255,255,255,0.12);
+  border-radius: 3px;
   overflow: hidden;
-  border: 1px solid rgba(255,255,255,0.08);
 }
 .tf-progress-fill {
   height: 100%;
-  background: linear-gradient(90deg, var(--blue) 0%, var(--blue-light) 100%);
-  border-radius: 999px;
-  transition: width 0.45s cubic-bezier(0.4, 0, 0.2, 1);
+  background: var(--blue-light);
+  border-radius: 3px;
+  transition: width 0.4s ease;
   width: 0%;
-  box-shadow: 0 0 12px rgba(43,143,206,0.55);
-}
-@media (max-width: 680px) {
-  .tf-progress-wrap { max-width: none; margin: 0 16px; }
-  .tf-progress-label { font-size: 11px; }
 }
 .tf-skip {
   font-size: 14px;
@@ -293,21 +285,6 @@ body {
   vertical-align: middle;
 }
 
-/* Example text */
-.tf-q-example {
-  font-size: 16px;
-  color: rgba(255,255,255,0.38);
-  margin-bottom: 28px;
-  font-weight: 300;
-  font-style: italic;
-  line-height: 1.5;
-}
-.tf-q-example strong {
-  color: rgba(255,255,255,0.65);
-  font-style: normal;
-  font-weight: 600;
-}
-
 /* Nav arrows at bottom */
 .tf-nav {
   position: fixed;
@@ -381,11 +358,9 @@ body {
 }
 .tf-start-btn:hover { background: var(--blue-light); transform: translateY(-2px); }
 .tf-time-note {
-  margin-top: 20px;
-  font-size: 18px;
-  font-weight: 600;
-  color: rgba(255,255,255,0.65);
-  letter-spacing: 0.02em;
+  margin-top: 16px;
+  font-size: 14px;
+  color: rgba(255,255,255,0.3);
 }
 
 /* ══════════════════════════════════════
@@ -646,77 +621,6 @@ input[type="text"] { font-size: 17px; font-weight: 400; }
 .recalc-link { text-align: center; margin-top: 28px; }
 .recalc-link button { background: none; border: 1.5px solid var(--border); border-radius: 8px; font-family: inherit; font-size: 17px; color: var(--text-body); padding: 11px 28px; cursor: pointer; transition: border-color 0.15s, color 0.15s; }
 .recalc-link button:hover { border-color: var(--blue); color: var(--blue); }
-
-/* ══════════════════════════════════════
-   HERO ROI BLOCK (top of results)
-══════════════════════════════════════ */
-.hero-results {
-  background: linear-gradient(160deg, var(--navy-deep) 0%, var(--navy-mid) 100%);
-  color: white;
-  border-radius: var(--radius);
-  padding: 44px 40px 40px;
-  box-shadow: var(--shadow-lg);
-  margin-bottom: 32px;
-}
-.hero-results .hero-eyebrow {
-  font-size: 13px;
-  font-weight: 700;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  color: rgba(255,255,255,0.55);
-  text-align: center;
-  margin-bottom: 8px;
-}
-.hero-results .hero-title {
-  font-family: 'Playfair Display', serif;
-  font-size: clamp(26px, 3vw, 34px);
-  font-weight: 700;
-  color: white;
-  text-align: center;
-  margin-bottom: 28px;
-  line-height: 1.2;
-}
-.hero-results .headline-block { margin: 0; }
-
-/* ══════════════════════════════════════
-   BOTTOM CTA PANEL (second Book a Call)
-══════════════════════════════════════ */
-.bottom-cta-panel {
-  background: linear-gradient(160deg, var(--navy-deep) 0%, var(--navy-mid) 100%);
-  color: white;
-  border-radius: var(--radius);
-  padding: 36px 40px;
-  box-shadow: var(--shadow-lg);
-  margin-top: 40px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 32px;
-  flex-wrap: wrap;
-}
-.bottom-cta-text { flex: 1; min-width: 240px; }
-.bottom-cta-eyebrow {
-  font-size: 12px;
-  font-weight: 700;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  color: rgba(255,255,255,0.45);
-  margin-bottom: 8px;
-}
-.bottom-cta-title {
-  font-family: 'Playfair Display', serif;
-  font-size: 26px;
-  font-weight: 700;
-  color: white;
-  margin-bottom: 8px;
-  line-height: 1.2;
-}
-.bottom-cta-body {
-  font-size: 16px;
-  color: rgba(255,255,255,0.6);
-  line-height: 1.55;
-  font-weight: 300;
-}
 </style>
 </head>
 <body>
@@ -730,7 +634,7 @@ input[type="text"] { font-size: 17px; font-weight: 400; }
   <div class="tf-topbar">
     <div class="tf-brand">Sales Engine &mdash; ROI Calculator</div>
     <div class="tf-progress-wrap">
-      <div class="tf-progress-label" id="progress-label">11 Quick Questions</div>
+      <div class="tf-progress-label" id="progress-label">Question 1 of 12</div>
       <div class="tf-progress-bar"><div class="tf-progress-fill" id="progress-fill"></div></div>
     </div>
     <button class="tf-skip" onclick="skipToResults()">Skip to results &rarr;</button>
@@ -749,17 +653,16 @@ input[type="text"] { font-size: 17px; font-weight: 400; }
     <div class="tf-welcome" id="tf-welcome">
       <div class="eyebrow">ROI Assessment Tool</div>
       <h1>What Could a Fractional Sales Manager Be Worth to Your Business?</h1>
-      <p>Answer 11 quick questions and we'll calculate your projected return on a six-month engagement.</p>
+      <p>Answer 12 quick questions and we'll calculate your projected return on a six-month engagement.</p>
       <button class="tf-start-btn" onclick="startForm()">Let's find out &#8594;</button>
       <div class="tf-time-note">Takes about 2 minutes</div>
     </div>
 
     <!-- Q1: Deal Size -->
     <div class="tf-question" id="q-1">
-      <div class="tf-q-num"><span class="arrow">&#8594;</span> 1 &nbsp;<span style="opacity:.4;font-weight:400;font-size:12px;letter-spacing:.06em">of 11</span></div>
+      <div class="tf-q-num"><span class="arrow">&#8594;</span> 1</div>
       <div class="tf-q-text">What is your average deal size?</div>
       <div class="tf-q-hint">The typical value of a single closed contract or sale.</div>
-      <div class="tf-q-example">e.g. &nbsp;<strong>$25,000</strong></div>
       <div class="tf-input-wrap">
         <span class="tf-prefix">$</span>
         <input class="tf-input" type="number" id="deal-size" placeholder="25000" min="0" step="1000" onkeydown="handleKey(event,1)">
@@ -770,10 +673,9 @@ input[type="text"] { font-size: 17px; font-weight: 400; }
 
     <!-- Q2: Gross Margin -->
     <div class="tf-question" id="q-2">
-      <div class="tf-q-num"><span class="arrow">&#8594;</span> 2 &nbsp;<span style="opacity:.4;font-weight:400;font-size:12px;letter-spacing:.06em">of 11</span></div>
+      <div class="tf-q-num"><span class="arrow">&#8594;</span> 2</div>
       <div class="tf-q-text">What is your gross margin?</div>
       <div class="tf-q-hint">The percentage of revenue left after direct costs — before overhead.</div>
-      <div class="tf-q-example">e.g. &nbsp;<strong>35%</strong> &nbsp;— meaning you keep $0.35 of every dollar billed</div>
       <div class="tf-input-wrap">
         <input class="tf-input" type="number" id="gross-margin" placeholder="35" min="0" max="100" step="1" onkeydown="handleKey(event,2)">
         <span class="tf-suffix">%</span>
@@ -784,10 +686,9 @@ input[type="text"] { font-size: 17px; font-weight: 400; }
 
     <!-- Q3: Opps per month -->
     <div class="tf-question" id="q-3">
-      <div class="tf-q-num"><span class="arrow">&#8594;</span> 3 &nbsp;<span style="opacity:.4;font-weight:400;font-size:12px;letter-spacing:.06em">of 11</span></div>
+      <div class="tf-q-num"><span class="arrow">&#8594;</span> 3</div>
       <div class="tf-q-text">How many active opportunities are in your pipeline each month?</div>
       <div class="tf-q-hint">Total prospects your team is actively working at any given time.</div>
-      <div class="tf-q-example">e.g. &nbsp;<strong>20 opportunities</strong> &nbsp;in various stages of the pipeline</div>
       <div class="tf-input-wrap">
         <input class="tf-input" type="number" id="opps-per-month" placeholder="20" min="0" step="1" onkeydown="handleKey(event,3)">
       </div>
@@ -795,133 +696,122 @@ input[type="text"] { font-size: 17px; font-weight: 400; }
       <div class="tf-enter-hint">Press <strong>Enter ↵</strong> to continue</div>
     </div>
 
-    <!-- Q4: Current close rate (was Q5) -->
+    <!-- Q4: Deals closed per month -->
     <div class="tf-question" id="q-4">
-      <div class="tf-q-num"><span class="arrow">&#8594;</span> 4 &nbsp;<span style="opacity:.4;font-weight:400;font-size:12px;letter-spacing:.06em">of 11</span></div>
-      <div class="tf-q-text">What is your current close rate?</div>
-      <div class="tf-q-hint">The percentage of opportunities your team closes today, without a sales manager.</div>
-      <div class="tf-q-example">e.g. &nbsp;<strong>25%</strong> &nbsp;— closing 5 out of every 20 opportunities</div>
+      <div class="tf-q-num"><span class="arrow">&#8594;</span> 4</div>
+      <div class="tf-q-text">How many deals do you close per month today?</div>
+      <div class="tf-q-hint">Actual transactions completed — not pipeline, just closed won.</div>
       <div class="tf-input-wrap">
-        <input class="tf-input" type="number" id="close-rate-current" placeholder="25" min="0" max="100" step="1" onkeydown="handleKey(event,4)">
-        <span class="tf-suffix">%</span>
+        <input class="tf-input" type="number" id="deals-per-month" placeholder="5" min="0" step="1" onkeydown="handleKey(event,4)">
       </div>
       <button class="tf-ok-btn" onclick="advance(4)">OK <span class="ok-key">↵ Enter</span></button>
       <div class="tf-enter-hint">Press <strong>Enter ↵</strong> to continue</div>
     </div>
 
-    <!-- Q5: Improved close rate (was Q6) -->
+    <!-- Q5: Current close rate -->
     <div class="tf-question" id="q-5">
-      <div class="tf-q-num"><span class="arrow">&#8594;</span> 5 &nbsp;<span style="opacity:.4;font-weight:400;font-size:12px;letter-spacing:.06em">of 11</span></div>
-      <div class="tf-q-text">What close rate do you anticipate with coaching and oversight?</div>
-      <div class="tf-q-hint">Your realistic expectation with an experienced sales manager actively coaching your team.</div>
-      <div class="tf-q-example">e.g. &nbsp;<strong>35%</strong> &nbsp;— closing 7 out of every 20 opportunities</div>
+      <div class="tf-q-num"><span class="arrow">&#8594;</span> 5</div>
+      <div class="tf-q-text">What is your current close rate?</div>
+      <div class="tf-q-hint">The percentage of opportunities your team closes today, without a sales manager.</div>
       <div class="tf-input-wrap">
-        <input class="tf-input" type="number" id="close-rate-improved" placeholder="35" min="0" max="100" step="1" onkeydown="handleKey(event,5)">
+        <input class="tf-input" type="number" id="close-rate-current" placeholder="25" min="0" max="100" step="1" onkeydown="handleKey(event,5)">
         <span class="tf-suffix">%</span>
       </div>
       <button class="tf-ok-btn" onclick="advance(5)">OK <span class="ok-key">↵ Enter</span></button>
       <div class="tf-enter-hint">Press <strong>Enter ↵</strong> to continue</div>
     </div>
 
-    <!-- Q6: Current discount (was Q7) -->
+    <!-- Q6: Improved close rate -->
     <div class="tf-question" id="q-6">
-      <div class="tf-q-num"><span class="arrow">&#8594;</span> 6 &nbsp;<span style="opacity:.4;font-weight:400;font-size:12px;letter-spacing:.06em">of 11</span></div>
-      <div class="tf-q-text">What percentage do you currently discount off list price?</div>
-      <div class="tf-q-hint">The average discount your salespeople give to close deals today.</div>
-      <div class="tf-q-example">e.g. &nbsp;<strong>10%</strong> &nbsp;— a $25,000 deal gets closed at $22,500</div>
+      <div class="tf-q-num"><span class="arrow">&#8594;</span> 6</div>
+      <div class="tf-q-text">What close rate do you anticipate with coaching and oversight?</div>
+      <div class="tf-q-hint">Your realistic expectation with an experienced sales manager actively coaching your team.</div>
       <div class="tf-input-wrap">
-        <input class="tf-input" type="number" id="discount-current" placeholder="10" min="0" max="100" step="0.5" onkeydown="handleKey(event,6)">
+        <input class="tf-input" type="number" id="close-rate-improved" placeholder="35" min="0" max="100" step="1" onkeydown="handleKey(event,6)">
         <span class="tf-suffix">%</span>
       </div>
       <button class="tf-ok-btn" onclick="advance(6)">OK <span class="ok-key">↵ Enter</span></button>
       <div class="tf-enter-hint">Press <strong>Enter ↵</strong> to continue</div>
     </div>
 
-    <!-- Q7: Improved discount (was Q8) -->
+    <!-- Q7: Current discount -->
     <div class="tf-question" id="q-7">
-      <div class="tf-q-num"><span class="arrow">&#8594;</span> 7 &nbsp;<span style="opacity:.4;font-weight:400;font-size:12px;letter-spacing:.06em">of 11</span></div>
-      <div class="tf-q-text">What discount do you expect with better deal coaching?</div>
-      <div class="tf-q-hint">With coaching on pricing conversations and deal defense, what could discounting drop to?</div>
-      <div class="tf-q-example">e.g. &nbsp;<strong>8%</strong> &nbsp;— saving 2 points of margin on every deal</div>
+      <div class="tf-q-num"><span class="arrow">&#8594;</span> 7</div>
+      <div class="tf-q-text">What percentage do you currently discount off list price?</div>
+      <div class="tf-q-hint">The average discount your salespeople give to close deals today.</div>
       <div class="tf-input-wrap">
-        <input class="tf-input" type="number" id="discount-improved" placeholder="8" min="0" max="100" step="0.5" onkeydown="handleKey(event,7)">
+        <input class="tf-input" type="number" id="discount-current" placeholder="10" min="0" max="100" step="0.5" onkeydown="handleKey(event,7)">
         <span class="tf-suffix">%</span>
       </div>
       <button class="tf-ok-btn" onclick="advance(7)">OK <span class="ok-key">↵ Enter</span></button>
       <div class="tf-enter-hint">Press <strong>Enter ↵</strong> to continue</div>
     </div>
 
-    <!-- Q8: New opps (was Q9) -->
+    <!-- Q8: Improved discount -->
     <div class="tf-question" id="q-8">
-      <div class="tf-q-num"><span class="arrow">&#8594;</span> 8 &nbsp;<span style="opacity:.4;font-weight:400;font-size:12px;letter-spacing:.06em">of 11</span></div>
-      <div class="tf-q-text">How many new opportunities could a sales manager generate per month?</div>
-      <div class="tf-q-hint">Incremental pipeline that isn't being worked today — from better prospecting activity and accountability.</div>
-      <div class="tf-q-example">e.g. &nbsp;<strong>3 new opportunities</strong> &nbsp;per month that currently fall through the cracks</div>
+      <div class="tf-q-num"><span class="arrow">&#8594;</span> 8</div>
+      <div class="tf-q-text">What discount do you expect with better deal coaching?</div>
+      <div class="tf-q-hint">With coaching on pricing conversations and deal defense, what could discounting drop to?</div>
       <div class="tf-input-wrap">
-        <input class="tf-input" type="number" id="new-opps" placeholder="3" min="0" step="1" onkeydown="handleKey(event,8)">
+        <input class="tf-input" type="number" id="discount-improved" placeholder="8" min="0" max="100" step="0.5" onkeydown="handleKey(event,8)">
+        <span class="tf-suffix">%</span>
       </div>
       <button class="tf-ok-btn" onclick="advance(8)">OK <span class="ok-key">↵ Enter</span></button>
       <div class="tf-enter-hint">Press <strong>Enter ↵</strong> to continue</div>
     </div>
 
-    <!-- Q9: Mgmt hours (was Q10) -->
+    <!-- Q9: New opps -->
     <div class="tf-question" id="q-9">
-      <div class="tf-q-num"><span class="arrow">&#8594;</span> 9 &nbsp;<span style="opacity:.4;font-weight:400;font-size:12px;letter-spacing:.06em">of 11</span></div>
-      <div class="tf-q-text">How many hours per week do you personally spend managing salespeople?</div>
-      <div class="tf-q-hint">Coaching sessions, ride-alongs, call reviews, deal reviews, pipeline meetings — all of it.</div>
-      <div class="tf-q-example">e.g. &nbsp;<strong>8 hours per week</strong> &nbsp;— roughly a full day you could redirect elsewhere</div>
+      <div class="tf-q-num"><span class="arrow">&#8594;</span> 9</div>
+      <div class="tf-q-text">How many new opportunities could a sales manager generate per month?</div>
+      <div class="tf-q-hint">Incremental pipeline that isn't being worked today — from better prospecting activity and accountability.</div>
       <div class="tf-input-wrap">
-        <input class="tf-input" type="number" id="mgmt-hours" placeholder="8" min="0" step="1" onkeydown="handleKey(event,9)">
+        <input class="tf-input" type="number" id="new-opps" placeholder="3" min="0" step="1" onkeydown="handleKey(event,9)">
       </div>
       <button class="tf-ok-btn" onclick="advance(9)">OK <span class="ok-key">↵ Enter</span></button>
       <div class="tf-enter-hint">Press <strong>Enter ↵</strong> to continue</div>
     </div>
 
-    <!-- Q10: Hourly value (was Q11) -->
+    <!-- Q10: Mgmt hours -->
     <div class="tf-question" id="q-10">
-      <div class="tf-q-num"><span class="arrow">&#8594;</span> 10 &nbsp;<span style="opacity:.4;font-weight:400;font-size:12px;letter-spacing:.06em">of 11</span></div>
-      <div class="tf-q-text">What is the value of your time per hour as president or owner?</div>
-      <div class="tf-q-hint">Think about what you could generate for the business with that time freed up — business development, strategy, key relationships.</div>
-      <div class="tf-q-example">e.g. &nbsp;<strong>$300/hour</strong> &nbsp;— based on your revenue impact or billing rate</div>
+      <div class="tf-q-num"><span class="arrow">&#8594;</span> 10</div>
+      <div class="tf-q-text">How many hours per week do you personally spend managing salespeople?</div>
+      <div class="tf-q-hint">Coaching sessions, ride-alongs, call reviews, deal reviews, pipeline meetings — all of it.</div>
       <div class="tf-input-wrap">
-        <span class="tf-prefix">$</span>
-        <input class="tf-input" type="number" id="hourly-rate" placeholder="300" min="0" step="50" onkeydown="handleKey(event,10)">
+        <input class="tf-input" type="number" id="mgmt-hours" placeholder="8" min="0" step="1" onkeydown="handleKey(event,10)">
       </div>
       <button class="tf-ok-btn" onclick="advance(10)">OK <span class="ok-key">↵ Enter</span></button>
       <div class="tf-enter-hint">Press <strong>Enter ↵</strong> to continue</div>
     </div>
 
-    <!-- Q11: Monthly investment (was Q12) -->
+    <!-- Q11: Hourly value -->
     <div class="tf-question" id="q-11">
-      <div class="tf-q-num"><span class="arrow">&#8594;</span> 11 &nbsp;<span style="opacity:.4;font-weight:400;font-size:12px;letter-spacing:.06em">of 11</span></div>
-      <div class="tf-q-text">What is your expected monthly investment?</div>
-      <div class="tf-q-hint">We've pre-filled $8,500/month as a typical starting point. Adjust if you have a specific number in mind.</div>
-      <div class="tf-q-example">e.g. &nbsp;<strong>$8,500/month</strong> &nbsp;= $51,000 over a six-month engagement</div>
+      <div class="tf-q-num"><span class="arrow">&#8594;</span> 11</div>
+      <div class="tf-q-text">What is the value of your time per hour as president or owner?</div>
+      <div class="tf-q-hint">Think about what you could generate for the business with that time freed up — business development, strategy, key relationships.</div>
       <div class="tf-input-wrap">
         <span class="tf-prefix">$</span>
-        <input class="tf-input" type="number" id="monthly-cost" value="8500" min="0" step="500" onkeydown="handleKey(event,11)">
+        <input class="tf-input" type="number" id="hourly-rate" placeholder="300" min="0" step="50" onkeydown="handleKey(event,11)">
       </div>
-      <button class="tf-ok-btn" onclick="advance(11)">See My Results &#8594;</button>
+      <button class="tf-ok-btn" onclick="advance(11)">OK <span class="ok-key">↵ Enter</span></button>
+      <div class="tf-enter-hint">Press <strong>Enter ↵</strong> to continue</div>
+    </div>
+
+    <!-- Q12: Monthly investment -->
+    <div class="tf-question" id="q-12">
+      <div class="tf-q-num"><span class="arrow">&#8594;</span> 12</div>
+      <div class="tf-q-text">What is your expected monthly investment?</div>
+      <div class="tf-q-hint">We've pre-filled $8,500/month as a typical starting point. Adjust if you have a specific number in mind.</div>
+      <div class="tf-input-wrap">
+        <span class="tf-prefix">$</span>
+        <input class="tf-input" type="number" id="monthly-cost" value="8500" min="0" step="500" onkeydown="handleKey(event,12)">
+      </div>
+      <button class="tf-ok-btn" onclick="advance(12)">See My Results &#8594;</button>
       <div class="tf-enter-hint">Press <strong>Enter ↵</strong> to see your results</div>
     </div>
 
   </div><!-- /tf-viewport -->
 </div><!-- /typeform-shell -->
-
-<!-- ══ CALCULATING SCREEN ══ -->
-<div id="calculating-screen" style="display:none; position:fixed; inset:0; background:var(--navy-deep); z-index:999; flex-direction:column; align-items:center; justify-content:center; text-align:center;">
-  <div style="margin-bottom:32px;">
-    <svg width="60" height="60" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <circle cx="30" cy="30" r="26" stroke="rgba(255,255,255,0.1)" stroke-width="4"/>
-      <circle cx="30" cy="30" r="26" stroke="#1A6FA8" stroke-width="4" stroke-linecap="round"
-        stroke-dasharray="40 124" transform="rotate(-90 30 30)">
-        <animateTransform attributeName="transform" type="rotate" from="-90 30 30" to="270 30 30" dur="1.2s" repeatCount="indefinite"/>
-      </circle>
-    </svg>
-  </div>
-  <div style="font-family:'Playfair Display',serif; font-size:36px; font-weight:700; color:white; margin-bottom:12px;">Calculating your ROI…</div>
-  <div style="font-size:18px; color:rgba(255,255,255,0.45); font-weight:300;">Crunching the numbers across all four areas of return</div>
-</div>
 
 <!-- ══════════════════════════════════════
      RESULTS (Step 2 + 3)
@@ -937,7 +827,7 @@ input[type="text"] { font-size: 17px; font-weight: 400; }
     </div>
     <div class="ip-step ip-active" id="ip-2">
       <div class="ip-num">2</div>
-      <div class="ip-text"><span class="ip-label">Step Two</span><span class="ip-title">Review Your Results</span></div>
+      <div class="ip-text"><span class="ip-label">Step Two</span><span class="ip-title">Adjust &amp; Calculate</span></div>
     </div>
     <div class="ip-step" id="ip-3">
       <div class="ip-num">3</div>
@@ -945,61 +835,11 @@ input[type="text"] { font-size: 17px; font-weight: 400; }
     </div>
   </div>
 
-  <!-- HERO ROI BLOCK (top of results) -->
-  <div class="hero-results">
-    <div class="hero-eyebrow">Your Projected Return</div>
-    <div class="hero-title">Here's What Fractional Sales Management Could Be Worth</div>
-    <div class="headline-block">
-      <div class="hl-roi">
-        <div class="hl-eyebrow">Return on Investment</div>
-        <div class="hl-number" id="hl-roi">—</div>
-        <div class="hl-sub">For every $1 invested over 6 months</div>
-      </div>
-      <div class="hl-divider"></div>
-      <div class="hl-net">
-        <div class="hl-eyebrow">Net Increased Margin</div>
-        <div class="hl-number hl-number-net" id="hl-net-margin">—</div>
-        <div class="hl-sub">Value generated above the cost of investment</div>
-      </div>
-      <div class="hl-divider"></div>
-      <div class="payback-box">
-        <div class="pb-label">Payback Period</div>
-        <div class="pb-val" id="hl-payback">—</div>
-        <div class="pb-unit">months</div>
-      </div>
-    </div>
-  </div>
-
-  <!-- 6-Month ROI Summary (second section) -->
-  <div class="totals-panel">
-    <h3>6-Month ROI Summary</h3>
-    <table class="totals-table">
-      <tr><td><span class="row-label">① Close Rate Improvement</span></td><td id="tt-1">$0</td></tr>
-      <tr><td><span class="row-label">② Discount Recovery</span></td><td id="tt-2">$0</td></tr>
-      <tr><td><span class="row-label">③ New Opportunities Closed</span></td><td id="tt-3">$0</td></tr>
-      <tr><td><span class="row-label">④ President's Time Recaptured</span></td><td id="tt-4">$0</td></tr>
-      <tr id="tt-custom-row" style="display:none"><td><span class="row-label" id="tt-custom-label">Other Benefit</span></td><td id="tt-5">$0</td></tr>
-      <tr class="total-row"><td>Total 6-Month Value</td><td id="tt-total">$0</td></tr>
-      <tr class="sub-row"><td><span>Less: Total Investment (6 months)</span></td><td id="tt-invest">—</td></tr>
-      <tr class="net-row"><td><span>Net Increased Margin</span></td><td id="tt-net">—</td></tr>
-    </table>
-    <!-- Book a Call #1 — immediately after the summary -->
-    <div class="panel-cta">
-      <div class="panel-cta-left">
-        <div class="panel-cta-step">Step 3 of 3</div>
-        <div class="panel-cta-title">Like What You See? Let's Talk.</div>
-        <div class="panel-cta-body">If the numbers make sense, a 20-minute conversation is the right next step. No pressure — just a real look at what this could mean for your business.</div>
-      </div>
-      <a href="https://meetings.hubspot.com/mark-mcgraw/20-minute-zoom" target="_blank" class="panel-cta-btn">Book a 20-Minute Call &rarr;</a>
-    </div>
-    <p class="disclaimer">These projections are estimates based on the inputs you provided. Actual results will vary. This tool is designed to help you think through potential upside — not to guarantee specific outcomes.</p>
-  </div>
-
-  <!-- Adjust section header -->
-  <div class="section-header-block" style="margin-top: 48px;">
-    <div class="sh-step">Adjust Your Inputs</div>
-    <h2>Want to Refine the Numbers?</h2>
-    <p class="sh-desc">Tweak any number on the left and watch the totals above update in real time.</p>
+  <!-- Step 2 header -->
+  <div class="section-header-block">
+    <div class="sh-step">Step 2 of 3</div>
+    <h2>Adjust &amp; See Your Return</h2>
+    <p class="sh-desc">Tweak any number on the left and the results update instantly on the right.</p>
   </div>
 
   <!-- Step 2 paired rows -->
@@ -1139,14 +979,47 @@ input[type="text"] { font-size: 17px; font-weight: 400; }
 
   </div><!-- /step2-rows -->
 
-  <!-- Book a Call #2 — at the very bottom -->
-  <div class="bottom-cta-panel">
-    <div class="bottom-cta-text">
-      <div class="bottom-cta-eyebrow">Ready to Talk?</div>
-      <div class="bottom-cta-title">Let's See What This Could Look Like for You.</div>
-      <div class="bottom-cta-body">A 20-minute call is the right next step — no pressure, just a real conversation about your business.</div>
+  <!-- Totals Panel -->
+  <div class="totals-panel">
+    <h3>6-Month ROI Summary</h3>
+    <table class="totals-table">
+      <tr><td><span class="row-label">① Close Rate Improvement</span></td><td id="tt-1">$0</td></tr>
+      <tr><td><span class="row-label">② Discount Recovery</span></td><td id="tt-2">$0</td></tr>
+      <tr><td><span class="row-label">③ New Opportunities Closed</span></td><td id="tt-3">$0</td></tr>
+      <tr><td><span class="row-label">④ President's Time Recaptured</span></td><td id="tt-4">$0</td></tr>
+      <tr id="tt-custom-row" style="display:none"><td><span class="row-label" id="tt-custom-label">Other Benefit</span></td><td id="tt-5">$0</td></tr>
+      <tr class="total-row"><td>Total 6-Month Value</td><td id="tt-total">$0</td></tr>
+      <tr class="sub-row"><td><span>Less: Total Investment (6 months)</span></td><td id="tt-invest">—</td></tr>
+      <tr class="net-row"><td><span>Net Increased Margin</span></td><td id="tt-net">—</td></tr>
+    </table>
+    <div class="headline-block">
+      <div class="hl-roi">
+        <div class="hl-eyebrow">Return on Investment</div>
+        <div class="hl-number" id="hl-roi">—</div>
+        <div class="hl-sub">For every $1 invested over 6 months</div>
+      </div>
+      <div class="hl-divider"></div>
+      <div class="hl-net">
+        <div class="hl-eyebrow">Net Increased Margin</div>
+        <div class="hl-number hl-number-net" id="hl-net-margin">—</div>
+        <div class="hl-sub">Value generated above the cost of investment</div>
+      </div>
+      <div class="hl-divider"></div>
+      <div class="payback-box">
+        <div class="pb-label">Payback Period</div>
+        <div class="pb-val" id="hl-payback">—</div>
+        <div class="pb-unit">months</div>
+      </div>
     </div>
-    <a href="https://meetings.hubspot.com/mark-mcgraw/20-minute-zoom" target="_blank" class="panel-cta-btn">Book a 20-Minute Call &rarr;</a>
+    <div class="panel-cta">
+      <div class="panel-cta-left">
+        <div class="panel-cta-step">Step 3 of 3</div>
+        <div class="panel-cta-title">Like What You See? Let's Talk.</div>
+        <div class="panel-cta-body">If the numbers make sense, a 20-minute conversation is the right next step. No pressure — just a real look at what this could mean for your business.</div>
+      </div>
+      <a href="https://meetings.hubspot.com/mark-mcgraw/20-minute-zoom" target="_blank" class="panel-cta-btn">Book a 20-Minute Call &rarr;</a>
+    </div>
+    <p class="disclaimer">These projections are estimates based on the inputs you provided. Actual results will vary. This tool is designed to help you think through potential upside — not to guarantee specific outcomes.</p>
   </div>
 
   <div class="recalc-link">
@@ -1157,7 +1030,7 @@ input[type="text"] { font-size: 17px; font-weight: 400; }
 </div><!-- /results-section -->
 
 <script>
-const TOTAL_QUESTIONS = 11;
+const TOTAL_QUESTIONS = 12;
 let currentQ = 0; // 0 = welcome screen
 let started = false;
 
@@ -1224,22 +1097,16 @@ function handleKey(e, n) {
 }
 
 function updateProgress() {
-  const label = document.getElementById('progress-label');
-  const fill = document.getElementById('progress-fill');
-  if (currentQ === 0) {
-    fill.style.width = '0%';
-    label.textContent = TOTAL_QUESTIONS + ' Quick Questions';
-  } else {
-    const pct = (currentQ / TOTAL_QUESTIONS) * 100;
-    fill.style.width = pct + '%';
-    label.textContent = 'Question ' + currentQ + ' of ' + TOTAL_QUESTIONS;
-  }
+  const pct = ((currentQ - 1) / TOTAL_QUESTIONS) * 100;
+  document.getElementById('progress-fill').style.width = Math.max(pct, 4) + '%';
+  document.getElementById('progress-label').textContent = 'Question ' + currentQ + ' of ' + TOTAL_QUESTIONS;
 }
 
 function skipToResults() {
+  // Fill defaults for any empty fields
   const defaults = {
     'deal-size': 25000, 'gross-margin': 35, 'opps-per-month': 20,
-    'close-rate-current': 25, 'close-rate-improved': 35,
+    'deals-per-month': 5, 'close-rate-current': 25, 'close-rate-improved': 35,
     'discount-current': 10, 'discount-improved': 8, 'new-opps': 3,
     'mgmt-hours': 8, 'hourly-rate': 300, 'monthly-cost': 8500
   };
@@ -1282,11 +1149,12 @@ function syncStep2() {
   document.getElementById('b-invest-echo').textContent = fmt(mc * 6);
 }
 
-// ── SHOW RESULTS with Calculating screen ──
+// ── SHOW RESULTS ──
 function showResults() {
+  // Fill defaults
   const defaults = {
     'deal-size': 25000, 'gross-margin': 35, 'opps-per-month': 20,
-    'close-rate-current': 25, 'close-rate-improved': 35,
+    'deals-per-month': 5, 'close-rate-current': 25, 'close-rate-improved': 35,
     'discount-current': 10, 'discount-improved': 8, 'new-opps': 3,
     'mgmt-hours': 8, 'hourly-rate': 300, 'monthly-cost': 8500
   };
@@ -1298,19 +1166,12 @@ function showResults() {
   syncStep2();
   calculate();
 
-  // Hide the typeform, show the calculating screen
   document.getElementById('typeform-shell').style.display = 'none';
-  const calcScreen = document.getElementById('calculating-screen');
-  calcScreen.style.display = 'flex';
+  const rs = document.getElementById('results-section');
+  rs.classList.add('visible');
+  window.scrollTo(0, 0);
 
-  // After 2.5 seconds, show results
-  setTimeout(() => {
-    calcScreen.style.display = 'none';
-    const rs = document.getElementById('results-section');
-    rs.classList.add('visible');
-    window.scrollTo(0, 0);
-    setStep(2);
-  }, 2500);
+  setStep(2);
 }
 
 // ── STEP TRACKER ──
