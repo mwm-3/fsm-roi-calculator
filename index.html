@@ -634,7 +634,7 @@ input[type="text"] { font-size: 17px; font-weight: 400; }
   <div class="tf-topbar">
     <div class="tf-brand">Sales Engine &mdash; ROI Calculator</div>
     <div class="tf-progress-wrap">
-      <div class="tf-progress-label" id="progress-label">Question 1 of 12</div>
+      <div class="tf-progress-label" id="progress-label">Question 1 of 11</div>
       <div class="tf-progress-bar"><div class="tf-progress-fill" id="progress-fill"></div></div>
     </div>
     <button class="tf-skip" onclick="skipToResults()">Skip to results &rarr;</button>
@@ -653,160 +653,145 @@ input[type="text"] { font-size: 17px; font-weight: 400; }
     <div class="tf-welcome" id="tf-welcome">
       <div class="eyebrow">ROI Assessment Tool</div>
       <h1>What Could a Fractional Sales Manager Be Worth to Your Business?</h1>
-      <p>Answer 12 quick questions and we'll calculate your projected return on a six-month engagement.</p>
+      <p>Answer 11 quick questions and we'll calculate your projected return on a six-month engagement.</p>
       <button class="tf-start-btn" onclick="startForm()">Let's find out &#8594;</button>
       <div class="tf-time-note">Takes about 2 minutes</div>
     </div>
 
-    <!-- Q1: Deal Size -->
+    <!-- Q1: Salespeople -->
     <div class="tf-question" id="q-1">
       <div class="tf-q-num"><span class="arrow">&#8594;</span> 1</div>
-      <div class="tf-q-text">What is your average deal size?</div>
-      <div class="tf-q-hint">The typical value of a single closed contract or sale.</div>
+      <div class="tf-q-text">How many salespeople are you looking to have managed?</div>
       <div class="tf-input-wrap">
-        <span class="tf-prefix">$</span>
-        <input class="tf-input" type="number" id="deal-size" placeholder="25000" min="0" step="1000" onkeydown="handleKey(event,1)">
+        <input class="tf-input" type="number" id="salespeople" placeholder="3" min="0" step="1" onkeydown="handleKey(event,1)">
       </div>
       <button class="tf-ok-btn" onclick="advance(1)">OK <span class="ok-key">↵ Enter</span></button>
       <div class="tf-enter-hint">Press <strong>Enter ↵</strong> to continue</div>
     </div>
 
-    <!-- Q2: Gross Margin -->
+    <!-- Q2: Deal Size -->
     <div class="tf-question" id="q-2">
       <div class="tf-q-num"><span class="arrow">&#8594;</span> 2</div>
-      <div class="tf-q-text">What is your gross margin?</div>
-      <div class="tf-q-hint">The percentage of revenue left after direct costs — before overhead.</div>
+      <div class="tf-q-text">What is your average deal size?</div>
+      <div class="tf-q-hint">The typical value of a single closed contract or sale.</div>
       <div class="tf-input-wrap">
-        <input class="tf-input" type="number" id="gross-margin" placeholder="35" min="0" max="100" step="1" onkeydown="handleKey(event,2)">
-        <span class="tf-suffix">%</span>
+        <span class="tf-prefix">$</span>
+        <input class="tf-input" type="number" id="deal-size" placeholder="25000" min="0" step="1000" onkeydown="handleKey(event,2)">
       </div>
       <button class="tf-ok-btn" onclick="advance(2)">OK <span class="ok-key">↵ Enter</span></button>
       <div class="tf-enter-hint">Press <strong>Enter ↵</strong> to continue</div>
     </div>
 
-    <!-- Q3: Opps per month -->
+    <!-- Q3: Gross Margin -->
     <div class="tf-question" id="q-3">
       <div class="tf-q-num"><span class="arrow">&#8594;</span> 3</div>
-      <div class="tf-q-text">How many active opportunities are in your pipeline each month?</div>
-      <div class="tf-q-hint">Total prospects your team is actively working at any given time.</div>
+      <div class="tf-q-text">What is your gross margin?</div>
+      <div class="tf-q-hint">The percentage of revenue left after direct costs — before overhead.</div>
       <div class="tf-input-wrap">
-        <input class="tf-input" type="number" id="opps-per-month" placeholder="20" min="0" step="1" onkeydown="handleKey(event,3)">
+        <input class="tf-input" type="number" id="gross-margin" placeholder="35" min="0" max="100" step="1" onkeydown="handleKey(event,3)">
+        <span class="tf-suffix">%</span>
       </div>
       <button class="tf-ok-btn" onclick="advance(3)">OK <span class="ok-key">↵ Enter</span></button>
       <div class="tf-enter-hint">Press <strong>Enter ↵</strong> to continue</div>
     </div>
 
-    <!-- Q4: Deals closed per month -->
+    <!-- Q4: Opps per month -->
     <div class="tf-question" id="q-4">
       <div class="tf-q-num"><span class="arrow">&#8594;</span> 4</div>
-      <div class="tf-q-text">How many deals do you close per month today?</div>
-      <div class="tf-q-hint">Actual transactions completed — not pipeline, just closed won.</div>
+      <div class="tf-q-text">How many active opportunities are in your pipeline each month?</div>
+      <div class="tf-q-hint">Total prospects your team is actively working at any given time.</div>
       <div class="tf-input-wrap">
-        <input class="tf-input" type="number" id="deals-per-month" placeholder="5" min="0" step="1" onkeydown="handleKey(event,4)">
+        <input class="tf-input" type="number" id="opps-per-month" placeholder="20" min="0" step="1" onkeydown="handleKey(event,4)">
       </div>
       <button class="tf-ok-btn" onclick="advance(4)">OK <span class="ok-key">↵ Enter</span></button>
       <div class="tf-enter-hint">Press <strong>Enter ↵</strong> to continue</div>
     </div>
 
-    <!-- Q5: Current close rate -->
+    <!-- Q5: Deals closed per month -->
     <div class="tf-question" id="q-5">
       <div class="tf-q-num"><span class="arrow">&#8594;</span> 5</div>
-      <div class="tf-q-text">What is your current close rate?</div>
-      <div class="tf-q-hint">The percentage of opportunities your team closes today, without a sales manager.</div>
+      <div class="tf-q-text">How many deals do you close per month today?</div>
+      <div class="tf-q-hint">Actual transactions completed — not pipeline, just closed won.</div>
       <div class="tf-input-wrap">
-        <input class="tf-input" type="number" id="close-rate-current" placeholder="25" min="0" max="100" step="1" onkeydown="handleKey(event,5)">
-        <span class="tf-suffix">%</span>
+        <input class="tf-input" type="number" id="deals-per-month" placeholder="5" min="0" step="1" onkeydown="handleKey(event,5)">
       </div>
       <button class="tf-ok-btn" onclick="advance(5)">OK <span class="ok-key">↵ Enter</span></button>
       <div class="tf-enter-hint">Press <strong>Enter ↵</strong> to continue</div>
     </div>
 
-    <!-- Q6: Improved close rate -->
+    <!-- Q6: Current close rate -->
     <div class="tf-question" id="q-6">
       <div class="tf-q-num"><span class="arrow">&#8594;</span> 6</div>
-      <div class="tf-q-text">What close rate do you anticipate with coaching and oversight?</div>
-      <div class="tf-q-hint">Your realistic expectation with an experienced sales manager actively coaching your team.</div>
+      <div class="tf-q-text">What is your current close rate?</div>
+      <div class="tf-q-hint">The percentage of opportunities your team closes today, without a sales manager.</div>
       <div class="tf-input-wrap">
-        <input class="tf-input" type="number" id="close-rate-improved" placeholder="35" min="0" max="100" step="1" onkeydown="handleKey(event,6)">
+        <input class="tf-input" type="number" id="close-rate-current" placeholder="25" min="0" max="100" step="1" onkeydown="handleKey(event,6)">
         <span class="tf-suffix">%</span>
       </div>
       <button class="tf-ok-btn" onclick="advance(6)">OK <span class="ok-key">↵ Enter</span></button>
       <div class="tf-enter-hint">Press <strong>Enter ↵</strong> to continue</div>
     </div>
 
-    <!-- Q7: Current discount -->
+    <!-- Q7: Improved close rate -->
     <div class="tf-question" id="q-7">
       <div class="tf-q-num"><span class="arrow">&#8594;</span> 7</div>
-      <div class="tf-q-text">What percentage do you currently discount off list price?</div>
-      <div class="tf-q-hint">The average discount your salespeople give to close deals today.</div>
+      <div class="tf-q-text">What close rate do you anticipate with coaching and oversight?</div>
+      <div class="tf-q-hint">Your realistic expectation with an experienced sales manager actively coaching your team.</div>
       <div class="tf-input-wrap">
-        <input class="tf-input" type="number" id="discount-current" placeholder="10" min="0" max="100" step="0.5" onkeydown="handleKey(event,7)">
+        <input class="tf-input" type="number" id="close-rate-improved" placeholder="35" min="0" max="100" step="1" onkeydown="handleKey(event,7)">
         <span class="tf-suffix">%</span>
       </div>
       <button class="tf-ok-btn" onclick="advance(7)">OK <span class="ok-key">↵ Enter</span></button>
       <div class="tf-enter-hint">Press <strong>Enter ↵</strong> to continue</div>
     </div>
 
-    <!-- Q8: Improved discount -->
+    <!-- Q8: Current discount -->
     <div class="tf-question" id="q-8">
       <div class="tf-q-num"><span class="arrow">&#8594;</span> 8</div>
-      <div class="tf-q-text">What discount do you expect with better deal coaching?</div>
-      <div class="tf-q-hint">With coaching on pricing conversations and deal defense, what could discounting drop to?</div>
+      <div class="tf-q-text">What percentage do you currently discount off list price?</div>
+      <div class="tf-q-hint">The average discount your salespeople give to close deals today.</div>
       <div class="tf-input-wrap">
-        <input class="tf-input" type="number" id="discount-improved" placeholder="8" min="0" max="100" step="0.5" onkeydown="handleKey(event,8)">
+        <input class="tf-input" type="number" id="discount-current" placeholder="10" min="0" max="100" step="0.5" onkeydown="handleKey(event,8)">
         <span class="tf-suffix">%</span>
       </div>
       <button class="tf-ok-btn" onclick="advance(8)">OK <span class="ok-key">↵ Enter</span></button>
       <div class="tf-enter-hint">Press <strong>Enter ↵</strong> to continue</div>
     </div>
 
-    <!-- Q9: New opps -->
+    <!-- Q9: Improved discount -->
     <div class="tf-question" id="q-9">
       <div class="tf-q-num"><span class="arrow">&#8594;</span> 9</div>
-      <div class="tf-q-text">How many new opportunities could a sales manager generate per month?</div>
-      <div class="tf-q-hint">Incremental pipeline that isn't being worked today — from better prospecting activity and accountability.</div>
+      <div class="tf-q-text">What discount do you expect with better deal coaching?</div>
+      <div class="tf-q-hint">With coaching on pricing conversations and deal defense, what could discounting drop to?</div>
       <div class="tf-input-wrap">
-        <input class="tf-input" type="number" id="new-opps" placeholder="3" min="0" step="1" onkeydown="handleKey(event,9)">
+        <input class="tf-input" type="number" id="discount-improved" placeholder="8" min="0" max="100" step="0.5" onkeydown="handleKey(event,9)">
+        <span class="tf-suffix">%</span>
       </div>
       <button class="tf-ok-btn" onclick="advance(9)">OK <span class="ok-key">↵ Enter</span></button>
       <div class="tf-enter-hint">Press <strong>Enter ↵</strong> to continue</div>
     </div>
 
-    <!-- Q10: Mgmt hours -->
+    <!-- Q10: New opps -->
     <div class="tf-question" id="q-10">
       <div class="tf-q-num"><span class="arrow">&#8594;</span> 10</div>
-      <div class="tf-q-text">How many hours per week do you personally spend managing salespeople?</div>
-      <div class="tf-q-hint">Coaching sessions, ride-alongs, call reviews, deal reviews, pipeline meetings — all of it.</div>
+      <div class="tf-q-text">How many new opportunities could a sales manager generate per month?</div>
+      <div class="tf-q-hint">Incremental pipeline that isn't being worked today — from better prospecting activity and accountability.</div>
       <div class="tf-input-wrap">
-        <input class="tf-input" type="number" id="mgmt-hours" placeholder="8" min="0" step="1" onkeydown="handleKey(event,10)">
+        <input class="tf-input" type="number" id="new-opps" placeholder="3" min="0" step="1" onkeydown="handleKey(event,10)">
       </div>
       <button class="tf-ok-btn" onclick="advance(10)">OK <span class="ok-key">↵ Enter</span></button>
       <div class="tf-enter-hint">Press <strong>Enter ↵</strong> to continue</div>
     </div>
 
-    <!-- Q11: Hourly value -->
+    <!-- Q11: Mgmt hours -->
     <div class="tf-question" id="q-11">
       <div class="tf-q-num"><span class="arrow">&#8594;</span> 11</div>
-      <div class="tf-q-text">What is the value of your time per hour as president or owner?</div>
-      <div class="tf-q-hint">Think about what you could generate for the business with that time freed up — business development, strategy, key relationships.</div>
+      <div class="tf-q-text">How many hours per week do you personally spend managing salespeople?</div>
+      <div class="tf-q-hint">Coaching sessions, ride-alongs, call reviews, deal reviews, pipeline meetings — all of it.</div>
       <div class="tf-input-wrap">
-        <span class="tf-prefix">$</span>
-        <input class="tf-input" type="number" id="hourly-rate" placeholder="300" min="0" step="50" onkeydown="handleKey(event,11)">
+        <input class="tf-input" type="number" id="mgmt-hours" placeholder="8" min="0" step="1" onkeydown="handleKey(event,11)">
       </div>
-      <button class="tf-ok-btn" onclick="advance(11)">OK <span class="ok-key">↵ Enter</span></button>
-      <div class="tf-enter-hint">Press <strong>Enter ↵</strong> to continue</div>
-    </div>
-
-    <!-- Q12: Monthly investment -->
-    <div class="tf-question" id="q-12">
-      <div class="tf-q-num"><span class="arrow">&#8594;</span> 12</div>
-      <div class="tf-q-text">What is your expected monthly investment?</div>
-      <div class="tf-q-hint">We've pre-filled $8,500/month as a typical starting point. Adjust if you have a specific number in mind.</div>
-      <div class="tf-input-wrap">
-        <span class="tf-prefix">$</span>
-        <input class="tf-input" type="number" id="monthly-cost" value="8500" min="0" step="500" onkeydown="handleKey(event,12)">
-      </div>
-      <button class="tf-ok-btn" onclick="advance(12)">See My Results &#8594;</button>
+      <button class="tf-ok-btn" onclick="advance(11)">See My Results &#8594;</button>
       <div class="tf-enter-hint">Press <strong>Enter ↵</strong> to see your results</div>
     </div>
 
@@ -1030,7 +1015,7 @@ input[type="text"] { font-size: 17px; font-weight: 400; }
 </div><!-- /results-section -->
 
 <script>
-const TOTAL_QUESTIONS = 12;
+const TOTAL_QUESTIONS = 11;
 let currentQ = 0; // 0 = welcome screen
 let started = false;
 
@@ -1105,7 +1090,7 @@ function updateProgress() {
 function skipToResults() {
   // Fill defaults for any empty fields
   const defaults = {
-    'deal-size': 25000, 'gross-margin': 35, 'opps-per-month': 20,
+    'salespeople': 3, 'deal-size': 25000, 'gross-margin': 35, 'opps-per-month': 20,
     'deals-per-month': 5, 'close-rate-current': 25, 'close-rate-improved': 35,
     'discount-current': 10, 'discount-improved': 8, 'new-opps': 3,
     'mgmt-hours': 8, 'hourly-rate': 300, 'monthly-cost': 8500
@@ -1153,7 +1138,7 @@ function syncStep2() {
 function showResults() {
   // Fill defaults
   const defaults = {
-    'deal-size': 25000, 'gross-margin': 35, 'opps-per-month': 20,
+    'salespeople': 3, 'deal-size': 25000, 'gross-margin': 35, 'opps-per-month': 20,
     'deals-per-month': 5, 'close-rate-current': 25, 'close-rate-improved': 35,
     'discount-current': 10, 'discount-improved': 8, 'new-opps': 3,
     'mgmt-hours': 8, 'hourly-rate': 300, 'monthly-cost': 8500
