@@ -594,16 +594,18 @@ input[type="text"] { font-size: 17px; font-weight: 400; }
 
 .headline-block {
   background: rgba(255,255,255,0.09); border: 1px solid rgba(255,255,255,0.16);
-  border-radius: 14px; padding: 34px 32px;
-  display: flex; align-items: center; justify-content: space-between; gap: 24px; flex-wrap: wrap;
+  border-radius: 14px; padding: 36px 36px;
+  display: flex; flex-direction: column; align-items: stretch; gap: 24px;
 }
-.hl-roi .hl-eyebrow { font-size: 13px; text-transform: uppercase; letter-spacing: 0.16em; color: rgba(255,255,255,0.5); font-weight: 700; margin-bottom: 8px; }
-.hl-roi .hl-number { font-family: 'Playfair Display', serif; font-size: 68px; font-weight: 700; color: #9ADEC6; line-height: 1; }
-.hl-roi .hl-sub { font-size: 16px; color: rgba(255,255,255,0.48); margin-top: 10px; }
-.hl-divider { width: 1px; align-self: stretch; background: rgba(255,255,255,0.15); margin: 0 8px; flex-shrink: 0; }
-.hl-net { flex: 1; }
+.headline-block > * + * { padding-top: 24px; border-top: 1px solid rgba(255,255,255,0.12); }
+.hl-roi .hl-eyebrow { font-size: 13px; text-transform: uppercase; letter-spacing: 0.16em; color: rgba(255,255,255,0.5); font-weight: 700; margin-bottom: 10px; }
+.hl-roi .hl-number { font-family: 'Playfair Display', serif; font-size: 104px; font-weight: 700; color: #9ADEC6; line-height: 1; }
+.hl-roi .hl-sub { font-size: 16px; color: rgba(255,255,255,0.48); margin-top: 12px; }
+.hl-divider { display: none; }
+.hl-net .hl-eyebrow { font-size: 13px; text-transform: uppercase; letter-spacing: 0.16em; color: rgba(255,255,255,0.5); font-weight: 700; margin-bottom: 8px; }
+.hl-net .hl-sub { font-size: 16px; color: rgba(255,255,255,0.48); margin-top: 10px; }
 .hl-number-net { font-size: 48px !important; }
-.payback-box { text-align: center; background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.15); border-radius: 12px; padding: 24px 32px; min-width: 180px; }
+.payback-box { background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.15); border-radius: 12px; padding: 24px 32px; }
 .payback-box .pb-label { font-size: 13px; text-transform: uppercase; letter-spacing: 0.14em; color: rgba(255,255,255,0.48); font-weight: 700; margin-bottom: 10px; }
 .payback-box .pb-val { font-family: 'Playfair Display', serif; font-size: 48px; font-weight: 700; color: white; line-height: 1; }
 .payback-box .pb-unit { font-size: 16px; color: rgba(255,255,255,0.48); margin-top: 8px; }
@@ -634,7 +636,7 @@ input[type="text"] { font-size: 17px; font-weight: 400; }
   <div class="tf-topbar">
     <div class="tf-brand">Sales Engine &mdash; ROI Calculator</div>
     <div class="tf-progress-wrap">
-      <div class="tf-progress-label" id="progress-label">Question 1 of 10</div>
+      <div class="tf-progress-label" id="progress-label">Question 1 of 11</div>
       <div class="tf-progress-bar"><div class="tf-progress-fill" id="progress-fill"></div></div>
     </div>
     <button class="tf-skip" onclick="skipToResults()">Skip to results &rarr;</button>
@@ -653,7 +655,7 @@ input[type="text"] { font-size: 17px; font-weight: 400; }
     <div class="tf-welcome" id="tf-welcome">
       <div class="eyebrow">ROI Assessment Tool</div>
       <h1>What Could a Fractional Sales Manager Be Worth to Your Business?</h1>
-      <p>Answer 10 quick questions and we'll calculate your projected return on a six-month engagement.</p>
+      <p>Answer 11 quick questions and we'll calculate your projected return on a six-month engagement.</p>
       <button class="tf-start-btn" onclick="startForm()">Let's find out &#8594;</button>
       <div class="tf-time-note">Takes about 2 minutes</div>
     </div>
@@ -779,7 +781,20 @@ input[type="text"] { font-size: 17px; font-weight: 400; }
       <div class="tf-input-wrap">
         <input class="tf-input" type="number" id="mgmt-hours" placeholder="8" min="0" step="1" onkeydown="handleKey(event,10)">
       </div>
-      <button class="tf-ok-btn" onclick="advance(10)">See My Results &#8594;</button>
+      <button class="tf-ok-btn" onclick="advance(10)">OK <span class="ok-key">↵ Enter</span></button>
+      <div class="tf-enter-hint">Press <strong>Enter ↵</strong> to continue</div>
+    </div>
+
+    <!-- Q11: Hourly value -->
+    <div class="tf-question" id="q-11">
+      <div class="tf-q-num"><span class="arrow">&#8594;</span> 11</div>
+      <div class="tf-q-text">What is the value of your time per hour as president or owner?</div>
+      <div class="tf-q-hint">Think about what you could generate for the business with that time freed up — business development, strategy, key relationships.</div>
+      <div class="tf-input-wrap">
+        <span class="tf-prefix">$</span>
+        <input class="tf-input" type="number" id="hourly-rate" placeholder="300" min="0" step="50" onkeydown="handleKey(event,11)">
+      </div>
+      <button class="tf-ok-btn" onclick="advance(11)">See My Results &#8594;</button>
       <div class="tf-enter-hint">Press <strong>Enter ↵</strong> to see your results</div>
     </div>
 
@@ -1015,7 +1030,7 @@ input[type="text"] { font-size: 17px; font-weight: 400; }
 </div><!-- /results-section -->
 
 <script>
-const TOTAL_QUESTIONS = 10;
+const TOTAL_QUESTIONS = 11;
 let currentQ = 0; // 0 = welcome screen
 let started = false;
 
