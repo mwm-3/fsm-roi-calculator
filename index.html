@@ -625,6 +625,47 @@ input[type="text"] { font-size: 17px; font-weight: 400; }
 .recalc-link button:hover { border-color: var(--blue); color: var(--blue); }
 
 .version-tag { position: fixed; bottom: 10px; left: 14px; font-size: 11px; color: rgba(128,128,128,0.6); font-family: inherit; letter-spacing: 0.04em; pointer-events: none; z-index: 9999; }
+
+/* Center the ROI block within the headline panel */
+.hl-roi { text-align: center; }
+
+/* Calculating screen */
+#calculating-screen {
+  display: none;
+  position: fixed; inset: 0;
+  background: linear-gradient(160deg, var(--navy-deep) 0%, var(--navy) 60%, var(--navy-mid) 100%);
+  z-index: 5000;
+  align-items: center; justify-content: center; flex-direction: column;
+  color: white;
+}
+#calculating-screen.visible { display: flex; }
+.calc-spinner {
+  width: 96px; height: 96px;
+  border: 4px solid rgba(255,255,255,0.15);
+  border-top-color: #9ADEC6;
+  border-radius: 50%;
+  animation: calcSpin 0.9s linear infinite;
+  margin-bottom: 32px;
+}
+@keyframes calcSpin { to { transform: rotate(360deg); } }
+.calc-label { font-family: 'Playfair Display', serif; font-size: 38px; font-weight: 700; letter-spacing: 0.01em; margin-bottom: 8px; }
+.calc-sub   { font-size: 16px; color: rgba(255,255,255,0.55); letter-spacing: 0.04em; }
+
+/* Standalone gold CTA card ("Like What You See?") */
+.cta-card {
+  background: linear-gradient(160deg, #E8B748 0%, #C49A2A 100%);
+  border-radius: var(--radius);
+  padding: 36px 40px;
+  margin-top: 28px;
+  box-shadow: var(--shadow-lg);
+  display: flex; align-items: center; justify-content: space-between; gap: 32px; flex-wrap: wrap;
+}
+.cta-card .panel-cta-left   { flex: 1; min-width: 240px; }
+.cta-card .panel-cta-step   { font-size: 12px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: rgba(13,43,69,0.55); margin-bottom: 8px; }
+.cta-card .panel-cta-title  { font-family: 'Playfair Display', serif; font-size: 26px; font-weight: 700; color: var(--navy); margin-bottom: 8px; line-height: 1.2; }
+.cta-card .panel-cta-body   { font-size: 16px; color: rgba(13,43,69,0.78); line-height: 1.55; font-weight: 400; }
+.cta-card .panel-cta-btn    { background: var(--navy); color: white; box-shadow: 0 6px 20px rgba(13,43,69,0.28); }
+.cta-card .panel-cta-btn:hover { background: var(--navy-mid); }
 </style>
 </head>
 <body>
@@ -803,6 +844,13 @@ input[type="text"] { font-size: 17px; font-weight: 400; }
   </div><!-- /tf-viewport -->
 </div><!-- /typeform-shell -->
 
+<!-- Calculating screen -->
+<div id="calculating-screen">
+  <div class="calc-spinner"></div>
+  <div class="calc-label">Calculating your ROI…</div>
+  <div class="calc-sub">Crunching the numbers</div>
+</div>
+
 <!-- ══════════════════════════════════════
      RESULTS (Step 2 + 3)
 ══════════════════════════════════════ -->
@@ -817,7 +865,7 @@ input[type="text"] { font-size: 17px; font-weight: 400; }
     </div>
     <div class="ip-step ip-active" id="ip-2">
       <div class="ip-num">2</div>
-      <div class="ip-text"><span class="ip-label">Step Two</span><span class="ip-title">Adjust &amp; Calculate</span></div>
+      <div class="ip-text"><span class="ip-label">Step Two</span><span class="ip-title">Results &amp; Adjust</span></div>
     </div>
     <div class="ip-step" id="ip-3">
       <div class="ip-num">3</div>
@@ -857,20 +905,21 @@ input[type="text"] { font-size: 17px; font-weight: 400; }
       <tr class="sub-row"><td><span>Less: Total Investment (6 months)</span></td><td id="tt-invest">—</td></tr>
       <tr class="net-row"><td><span>Net Increased Margin</span></td><td id="tt-net">—</td></tr>
     </table>
-    <div class="panel-cta">
-      <div class="panel-cta-left">
-        <div class="panel-cta-step">Step 3 of 3</div>
-        <div class="panel-cta-title">Like What You See? Let's Talk.</div>
-        <div class="panel-cta-body">If the numbers make sense, a 20-minute conversation is the right next step. No pressure — just a real look at what this could mean for your business.</div>
-      </div>
-      <a href="https://meetings.hubspot.com/mark-mcgraw/20-minute-zoom" target="_blank" class="panel-cta-btn">Book a 20-Minute Call &rarr;</a>
-    </div>
     <p class="disclaimer">These projections are estimates based on the inputs you provided. Actual results will vary. This tool is designed to help you think through potential upside — not to guarantee specific outcomes.</p>
+  </div>
+
+  <!-- Like What You See? — standalone gold card -->
+  <div class="cta-card">
+    <div class="panel-cta-left">
+      <div class="panel-cta-step">Step 3 of 3</div>
+      <div class="panel-cta-title">Like What You See? Let's Talk.</div>
+      <div class="panel-cta-body">If the numbers make sense, a 20-minute conversation is the right next step. No pressure — just a real look at what this could mean for your business.</div>
+    </div>
+    <a href="https://meetings.hubspot.com/mark-mcgraw/20-minute-zoom" target="_blank" class="panel-cta-btn">Book a 20-Minute Call &rarr;</a>
   </div>
 
   <!-- Edit-your-results section header -->
   <div class="section-header-block">
-    <div class="sh-step">Step 2 of 3</div>
     <h2>Would you like to edit your results?</h2>
     <p class="sh-desc">Tweak any number on the left and the results update instantly on the right.</p>
   </div>
@@ -1012,16 +1061,14 @@ input[type="text"] { font-size: 17px; font-weight: 400; }
 
   </div><!-- /step2-rows -->
 
-  <!-- Second Book a Call CTA -->
-  <div class="totals-panel" style="margin-top:28px">
-    <div class="panel-cta" style="margin-top:0; padding-top:0; border-top:none">
-      <div class="panel-cta-left">
-        <div class="panel-cta-step">Step 3 of 3</div>
-        <div class="panel-cta-title">Like What You See? Let's Talk.</div>
-        <div class="panel-cta-body">If the numbers make sense, a 20-minute conversation is the right next step. No pressure — just a real look at what this could mean for your business.</div>
-      </div>
-      <a href="https://meetings.hubspot.com/mark-mcgraw/20-minute-zoom" target="_blank" class="panel-cta-btn">Book a 20-Minute Call &rarr;</a>
+  <!-- Second Book a Call CTA — gold card -->
+  <div class="cta-card">
+    <div class="panel-cta-left">
+      <div class="panel-cta-step">Step 3 of 3</div>
+      <div class="panel-cta-title">Like What You See? Let's Talk.</div>
+      <div class="panel-cta-body">If the numbers make sense, a 20-minute conversation is the right next step. No pressure — just a real look at what this could mean for your business.</div>
     </div>
+    <a href="https://meetings.hubspot.com/mark-mcgraw/20-minute-zoom" target="_blank" class="panel-cta-btn">Book a 20-Minute Call &rarr;</a>
   </div>
 
   <div class="recalc-link">
@@ -1169,11 +1216,16 @@ function showResults() {
   calculate();
 
   document.getElementById('typeform-shell').style.display = 'none';
-  const rs = document.getElementById('results-section');
-  rs.classList.add('visible');
-  window.scrollTo(0, 0);
+  const calc = document.getElementById('calculating-screen');
+  calc.classList.add('visible');
 
-  setStep(2);
+  setTimeout(() => {
+    calc.classList.remove('visible');
+    const rs = document.getElementById('results-section');
+    rs.classList.add('visible');
+    window.scrollTo(0, 0);
+    setStep(2);
+  }, 1800);
 }
 
 // ── STEP TRACKER ──
